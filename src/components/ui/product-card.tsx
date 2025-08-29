@@ -29,11 +29,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Box
-      className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+      className="border cursor-pointer hover:shadow-lg transition-shadow duration-200"
       onClick={handleProductClick}
       bg="card"
       borderRadius="lg"
-      className="border"
       overflow="hidden"
     >
       <VStack gap={4} align="stretch" p={4}>
@@ -45,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
             width="100%"
             height="100%"
           />
-          {!product.inStock && (
+          {product.quantity === 0 && (
             <Badge
               position="absolute"
               top={2}
@@ -77,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
             size="sm"
             colorScheme="primary"
             onClick={handleAddToCart}
-            disabled={!product.inStock}
+            disabled={product.quantity === 0}
           >
             <IconPlus className="mr-1" size={16} />
             Adicionar

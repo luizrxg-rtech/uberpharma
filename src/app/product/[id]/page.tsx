@@ -100,7 +100,7 @@ export default function ProductPage() {
                   width="100%"
                   height="100%"
                 />
-                {!product.inStock && (
+                {product.quantity === 0 && (
                   <Badge
                     position="absolute"
                     top={4}
@@ -141,7 +141,7 @@ export default function ProductPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      disabled={quantity <= 1 || !product.inStock}
+                      disabled={quantity <= 1 || product.quantity === 0}
                     >
                       -
                     </Button>
@@ -151,14 +151,14 @@ export default function ProductPage() {
                       onChange={(e) => handleQuantityChange(e.target.value)}
                       min={1}
                       max={product.quantity}
-                      disabled={!product.inStock}
+                      disabled={product.quantity === 0}
                       className="w-16 px-2 py-1 border border-gray-300 rounded text-center"
                     />
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => setQuantity(Math.min(product.quantity, quantity + 1))}
-                      disabled={quantity >= product.quantity || !product.inStock}
+                      disabled={quantity >= product.quantity || product.quantity === 0}
                     >
                       +
                     </Button>
@@ -166,7 +166,7 @@ export default function ProductPage() {
                 </HStack>
 
                 <Text fontSize="sm" color="muted.foreground">
-                  {product.inStock
+                  {product.quantity > 0
                     ? `${product.quantity} unidades disponíveis`
                     : 'Produto indisponível'
                   }
@@ -176,11 +176,11 @@ export default function ProductPage() {
                   size="lg"
                   colorScheme="primary"
                   onClick={handleAddToCart}
-                  disabled={!product.inStock}
+                  disabled={product.quantity === 0}
                   width="100%"
                 >
                   <IconShoppingCart className="mr-2" size={20} />
-                  {product.inStock ? 'Adicionar ao Carrinho' : 'Indisponível'}
+                  {product.quantity > 0 ? 'Adicionar ao Carrinho' : 'Indisponível'}
                 </Button>
               </VStack>
 

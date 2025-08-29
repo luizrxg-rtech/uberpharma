@@ -1,11 +1,11 @@
 export interface Product {
   id: string;
+  sku: number;
   name: string;
   description: string;
   price: number;
   image: string;
   category: string;
-  inStock: boolean;
   quantity: number;
 }
 
