@@ -1,7 +1,7 @@
 import {Input, InputGroup} from "@chakra-ui/react"
 import { FieldRoot, FieldLabel, FieldHelperText, FieldErrorText, FieldRequiredIndicator } from "@chakra-ui/react/field"
+import { ReactNode, KeyboardEvent } from "react";
 import { withMask } from "use-mask-input"
-import { ReactNode } from "react";
 
 interface TextFieldProps {
   id?: string,
@@ -12,6 +12,7 @@ interface TextFieldProps {
   errorText?: string,
   value: string,
   onChange: (value: string) => void,
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void,
   placeholder?: string,
   startElement?: ReactNode | string,
   endElement?: ReactNode | string,
@@ -38,6 +39,7 @@ export const TextField = ({
   errorText,
   value,
   onChange,
+  onKeyDown,
   placeholder,
   startElement,
   endElement,
@@ -74,6 +76,7 @@ export const TextField = ({
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
           className={inputClassName}
           variant={variant}
@@ -81,11 +84,11 @@ export const TextField = ({
           disabled={disabled}
           type={type}
           size={size}
-          ref={withMask(mask || "")}
+          {...(mask ? { ref: withMask(mask) } : {})}
         />
       </InputGroup>
       {helperText && <FieldHelperText className={helperTextClassName}>{helperText}</FieldHelperText>}
-      {(error && errorText) && <FieldErrorText className={helperTextClassName}>{helperText}</FieldErrorText>}
+      {(error && errorText) && <FieldErrorText className={helperTextClassName}>{errorText}</FieldErrorText>}
     </FieldRoot>
   )
 }

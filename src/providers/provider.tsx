@@ -1,18 +1,34 @@
 "use client"
 
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react"
+import { system } from "@/theme"
 import {
   ColorModeProvider,
   type ColorModeProviderProps,
 } from "./color-mode"
 
-import { Toaster } from "../components/ui/toaster"
+import {Toaster} from "@/components/ui/toaster"
+import {LoadingProvider} from "@/contexts/loading-context"
+import {RouteChangeHandler} from "@/components/ui/route-change-handler";
+import { CartProvider } from "@/contexts/cart-context"
+import { AuthProvider } from "@/contexts/auth-context"
+import { CartSidebarProvider } from "@/contexts/cart-sidebar-context"
 
 export function Provider(props: ColorModeProviderProps) {
   return (
-    <ChakraProvider value={defaultSystem}>
+    <ChakraProvider value={system}>
       <ColorModeProvider {...props}>
-        <Toaster/>
+        <AuthProvider>
+          <CartProvider>
+            <CartSidebarProvider>
+              <LoadingProvider>
+                {props.children}
+                <Toaster/>
+                <RouteChangeHandler />
+              </LoadingProvider>
+            </CartSidebarProvider>
+          </CartProvider>
+        </AuthProvider>
       </ColorModeProvider>
     </ChakraProvider>
   )

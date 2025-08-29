@@ -25,12 +25,13 @@
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "use-mask-input": "^3.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "ldrs": "^1.1.7",
     "motion": "^12.23.12",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "use-mask-input": "^3.5.0"
   }
 }
