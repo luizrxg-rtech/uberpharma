@@ -16,10 +16,11 @@ import {
   Badge,
   Grid,
   GridItem,
-  Box
+  Box,
+  Spinner
 } from '@chakra-ui/react';
 import { IconShoppingCart, IconArrowLeft } from '@tabler/icons-react';
-import productsData from '@/data/products.json';
+import { ProductService } from '@/services/product-service';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -29,11 +30,26 @@ export default function ProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const foundProduct = productsData.find(p => p.id === id);
-    setProduct(foundProduct || null);
-    setLoading(false);
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const foundProduct = await ProductService.getProductById(id as string);
+        setProduct(foundProduct);
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        setError('Erro ao carregar produto. Tente novamente.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchProduct();
+    }
   }, [id]);
 
   const handleAddToCart = () => {
@@ -57,7 +73,24 @@ export default function ProductPage() {
   if (loading) {
     return (
       <Container maxW="7xl" py={8}>
-        <Text>Carregando...</Text>
+        <VStack gap={8} align="center" minH="400px" justify="center">
+          <Spinner size="xl" />
+          <Text>Carregando produto...</Text>
+        </VStack>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container maxW="7xl" py={8}>
+        <VStack gap={8} align="center" minH="400px" justify="center">
+          <Text color="red.500" fontSize="lg">{error}</Text>
+          <Button onClick={handleBackClick}>
+            <IconArrowLeft className="mr-2" size={16} />
+            Voltar à página inicial
+          </Button>
+        </VStack>
       </Container>
     );
   }

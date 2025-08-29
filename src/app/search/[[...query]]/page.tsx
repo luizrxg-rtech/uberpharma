@@ -5,40 +5,56 @@ import { useState, useEffect } from 'react';
 import { Product } from '@/types';
 import { ProductCard } from '@/components/ui/product-card';
 import { SegmentedControl, SegmentOption } from '@/components/ui/segmented-control';
-import { Container, SimpleGrid, Text, VStack, HStack } from '@chakra-ui/react';
-import productsData from '@/data/products.json';
+import { Container, SimpleGrid, Text, VStack, Spinner } from '@chakra-ui/react';
+import { ProductService } from '@/services/product-service';
 
 export default function SearchPage() {
   const params = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const query = params?.query as string[] | undefined;
   const searchQuery = query && query.length > 0 ? decodeURIComponent(query[0]) : '';
   const isSearchRoute = Boolean(searchQuery);
 
   useEffect(() => {
-    setProducts(productsData);
-  }, []);
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        let fetchedProducts: Product[];
+
+        if (searchQuery) {
+          fetchedProducts = await ProductService.searchProducts(searchQuery);
+        } else {
+          fetchedProducts = await ProductService.getAllProducts();
+        }
+
+        setProducts(fetchedProducts);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Erro ao carregar produtos. Tente novamente.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [searchQuery]);
 
   useEffect(() => {
     let filtered = products;
-
-    if (searchQuery) {
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
 
     if (selectedCategory) {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
     setFilteredProducts(filtered);
-  }, [products, searchQuery, selectedCategory]);
+  }, [products, selectedCategory]);
 
   const categories = Array.from(new Set(products.map(product => product.category)));
 
@@ -68,6 +84,27 @@ export default function SearchPage() {
     }))
   ];
 
+  if (loading) {
+    return (
+      <Container maxW="7xl" py={8}>
+        <VStack gap={8} align="center" minH="400px" justify="center">
+          <Spinner size="xl" />
+          <Text>Carregando produtos...</Text>
+        </VStack>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container maxW="7xl" py={8}>
+        <VStack gap={8} align="center" minH="400px" justify="center">
+          <Text color="red.500" fontSize="lg">{error}</Text>
+        </VStack>
+      </Container>
+    );
+  }
+
   return (
     <Container maxW="7xl" py={8}>
       <VStack gap={8} align="stretch">
@@ -80,22 +117,24 @@ export default function SearchPage() {
           </Text>
         </VStack>
 
-        <VStack
-          gap={4}
-          wrap="wrap"
-          align="center"
-          className="w-full"
-        >
-          <Text fontSize="xl" fontWeight="semibold">Categorias</Text>
-          <SegmentedControl
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            options={categoryOptions}
-            size="sm"
-            colorScheme="blue"
-            className="w-fit"
-          />
-        </VStack>
+        {categories.length > 0 && (
+          <VStack
+            gap={4}
+            wrap="wrap"
+            align="center"
+            className="w-full"
+          >
+            <Text fontSize="xl" fontWeight="semibold">Categorias</Text>
+            <SegmentedControl
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              options={categoryOptions}
+              size="sm"
+              colorScheme="blue"
+              className="w-fit"
+            />
+          </VStack>
+        )}
 
         {filteredProducts.length === 0 ? (
           <VStack gap={4} py={12}>
