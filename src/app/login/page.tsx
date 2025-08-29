@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
-import { useNavigationLoading } from '@/hooks/use-navigation-loading';
+import { useRouter } from 'next/navigation';
 import {
   Container,
   VStack,
@@ -17,7 +17,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 
 export default function LoginPage() {
   const { login, register, isAuthenticated } = useAuth();
-  const { navigateWithLoading } = useNavigationLoading();
+  const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [loginData, setLoginData] = useState({
@@ -37,7 +37,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('');
 
   const handleBackClick = () => {
-    navigateWithLoading('/');
+    router.push('/');
   };
 
   const validateLoginForm = () => {
@@ -102,13 +102,13 @@ export default function LoginPage() {
       if (success) {
         setSuccess('Login realizado com sucesso!');
         setTimeout(() => {
-          navigateWithLoading('/');
+          router.push('/');
         }, 1000);
       } else {
-        setErrors(['Credenciais inválidas']);
+        setErrors(['E-mail ou senha inválidos']);
       }
-    } catch {
-      setErrors(['Erro ao fazer login']);
+    } catch (error) {
+      setErrors(['Erro ao fazer login. Tente novamente.']);
     } finally {
       setLoading(false);
     }
@@ -127,18 +127,18 @@ export default function LoginPage() {
     setErrors([]);
 
     try {
-      const success = await register(registerData.email, registerData.password, registerData.name);
+      const success = await register(registerData.name, registerData.email, registerData.password);
 
       if (success) {
-        setSuccess('Cadastro realizado com sucesso!');
+        setSuccess('Conta criada com sucesso!');
         setTimeout(() => {
-          navigateWithLoading('/');
+          router.push('/');
         }, 1000);
       } else {
-        setErrors(['Erro ao criar conta']);
+        setErrors(['E-mail já está em uso']);
       }
-    } catch {
-      setErrors(['Erro ao criar conta']);
+    } catch (error) {
+      setErrors(['Erro ao criar conta. Tente novamente.']);
     } finally {
       setLoading(false);
     }
@@ -173,7 +173,7 @@ export default function LoginPage() {
           </Button>
         </HStack>
 
-        <Box bg="card" p={6} borderRadius="lg" border="1px solid" borderColor="border">
+        <Box bg="card" p={6} borderRadius="lg" className="border" >
           <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as 'login' | 'register')}>
             <Tabs.List>
               <Tabs.Trigger value="login">Entrar</Tabs.Trigger>
@@ -188,7 +188,7 @@ export default function LoginPage() {
                   </Text>
 
                   {errors.length > 0 && (
-                    <Box bg="red.50" border="1px solid" borderColor="red.200" p={3} borderRadius="md">
+                    <Box bg="red.50" className="border" borderColor="red.200" p={3} borderRadius="md">
                       <VStack align="start" gap={1}>
                         {errors.map((error, index) => (
                           <Text key={index} fontSize="sm" color="red.600">{error}</Text>
@@ -198,7 +198,7 @@ export default function LoginPage() {
                   )}
 
                   {success && (
-                    <Box bg="green.50" border="1px solid" borderColor="green.200" p={3} borderRadius="md">
+                    <Box bg="green.50" className="border" borderColor="green.200" p={3} borderRadius="md">
                       <Text color="green.600">{success}</Text>
                     </Box>
                   )}
@@ -243,7 +243,7 @@ export default function LoginPage() {
                   </Text>
 
                   {errors.length > 0 && (
-                    <Box bg="red.50" border="1px solid" borderColor="red.200" p={3} borderRadius="md">
+                    <Box bg="red.50" className="border" borderColor="red.200" p={3} borderRadius="md">
                       <VStack align="start" gap={1}>
                         {errors.map((error, index) => (
                           <Text key={index} fontSize="sm" color="red.600">{error}</Text>
@@ -253,7 +253,7 @@ export default function LoginPage() {
                   )}
 
                   {success && (
-                    <Box bg="green.50" border="1px solid" borderColor="green.200" p={3} borderRadius="md">
+                    <Box bg="green.50" className="border" borderColor="green.200" p={3} borderRadius="md">
                       <Text color="green.600">{success}</Text>
                     </Box>
                   )}

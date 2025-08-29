@@ -80,15 +80,22 @@ export default function SearchPage() {
           </Text>
         </VStack>
 
-        <HStack gap={4} wrap="wrap" justify="center">
+        <VStack
+          gap={4}
+          wrap="wrap"
+          align="center"
+          className="w-full"
+        >
+          <Text fontSize="xl" fontWeight="semibold">Categorias</Text>
           <SegmentedControl
             value={selectedCategory}
             onChange={handleCategoryChange}
             options={categoryOptions}
             size="sm"
             colorScheme="blue"
+            className="w-fit"
           />
-        </HStack>
+        </VStack>
 
         {filteredProducts.length === 0 ? (
           <VStack gap={4} py={12}>

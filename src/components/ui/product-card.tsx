@@ -3,7 +3,7 @@
 import { Product } from '@/types';
 import { useCart } from '@/contexts/cart-context';
 import { useCartSidebar } from '@/contexts/cart-sidebar-context';
-import { useNavigationLoading } from '@/hooks/use-navigation-loading';
+import { useRouter } from 'next/navigation';
 import { Button, Text, Image, VStack, HStack, Badge, Box } from '@chakra-ui/react';
 import { IconPlus } from '@tabler/icons-react';
 import { MouseEvent } from 'react';
@@ -15,7 +15,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { openSidebar } = useCartSidebar();
-  const { navigateWithLoading } = useNavigationLoading();
+  const router = useRouter();
 
   const handleAddToCart = (e: MouseEvent) => {
     e.stopPropagation();
@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleProductClick = () => {
-    navigateWithLoading(`/product/${product.id}`);
+    router.push(`/product/${product.id}`);
   };
 
   return (
@@ -33,8 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
       onClick={handleProductClick}
       bg="card"
       borderRadius="lg"
-      border="1px solid"
-      borderColor="border"
+      className="border"
       overflow="hidden"
     >
       <VStack gap={4} align="stretch" p={4}>

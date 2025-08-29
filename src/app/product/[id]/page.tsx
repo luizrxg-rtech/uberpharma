@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Product } from '@/types';
 import { useCart } from '@/contexts/cart-context';
 import { useCartSidebar } from '@/contexts/cart-sidebar-context';
-import { useNavigationLoading } from '@/hooks/use-navigation-loading';
+import { useRouter } from 'next/navigation';
 import {
   Container,
   VStack,
@@ -25,7 +25,7 @@ export default function ProductPage() {
   const { id } = useParams();
   const { addItem } = useCart();
   const { openSidebar } = useCartSidebar();
-  const { navigateWithLoading } = useNavigationLoading();
+  const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ export default function ProductPage() {
   };
 
   const handleBackClick = () => {
-    navigateWithLoading('/');
+    router.push('/');
   };
 
   const handleQuantityChange = (value: string) => {
@@ -184,7 +184,7 @@ export default function ProductPage() {
                 </Button>
               </VStack>
 
-              <VStack gap={2} align="stretch" pt={4} borderTop="1px solid" borderColor="border">
+              <VStack gap={2} align="stretch" pt={4} className="border-t" >
                 <Text fontWeight="medium">Informações do produto:</Text>
                 <Text fontSize="sm" color="muted.foreground">
                   • Produto natural e terapêutico

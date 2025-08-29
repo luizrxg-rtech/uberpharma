@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/contexts/cart-context';
-import { useNavigationLoading } from '@/hooks/use-navigation-loading';
+import { useRouter } from 'next/navigation';
 import {
   Container,
   VStack,
@@ -17,10 +17,10 @@ import { IconTrash, IconShoppingBag, IconArrowLeft } from '@tabler/icons-react';
 
 export default function CartPage() {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();
-  const { navigateWithLoading } = useNavigationLoading();
+  const router = useRouter();
 
   const handleBackClick = () => {
-    navigateWithLoading('/');
+    router.push('/');
   };
 
   const handleQuantityChange = (id: string, quantity: number) => {
@@ -71,7 +71,7 @@ export default function CartPage() {
         <Flex direction={{ base: "column", lg: "row" }} gap={8}>
           <VStack flex={1} gap={4} align="stretch">
             {items.map((item) => (
-              <Box key={item.id} bg="card" p={4} borderRadius="lg" border="1px solid" borderColor="border">
+              <Box key={item.id} bg="card" p={4} borderRadius="lg" className="border" >
                 <HStack gap={4} align="start">
                   <Image
                     src={item.image}
@@ -128,7 +128,7 @@ export default function CartPage() {
             </HStack>
           </VStack>
 
-          <Box minW="300px" bg="card" p={6} borderRadius="lg" border="1px solid" borderColor="border" h="fit-content">
+          <Box minW="300px" bg="card" p={6} borderRadius="lg" className="border"  h="fit-content">
             <VStack gap={4} align="stretch">
               <Text fontSize="xl" fontWeight="bold">
                 Resumo do Pedido

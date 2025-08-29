@@ -2,20 +2,20 @@
 
 import { Button, Menu, Text } from "@chakra-ui/react";
 import { useAuth } from "@/contexts/auth-context";
-import { useNavigationLoading } from "@/hooks/use-navigation-loading";
+import { useRouter } from "next/navigation";
 import { IconUser, IconLogout, IconLogin } from "@tabler/icons-react";
 
 export const ProfileButton = () => {
   const { isAuthenticated, user, logout } = useAuth();
-  const { navigateWithLoading } = useNavigationLoading();
+  const router = useRouter();
 
   const handleLogin = () => {
-    navigateWithLoading('/login');
+    router.push('/login');
   };
 
   const handleLogout = () => {
     logout();
-    navigateWithLoading('/');
+    router.push('/');
   };
 
   if (!isAuthenticated) {

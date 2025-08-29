@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/contexts/cart-context';
-import { useNavigationLoading } from '@/hooks/use-navigation-loading';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -11,18 +11,14 @@ import {
   Image,
   Button,
   Flex,
-  Spacer
 } from '@chakra-ui/react';
 import { IconTrash, IconShoppingBag, IconX } from '@tabler/icons-react';
+import {useCartSidebar} from "@/contexts/cart-sidebar-context";
 
-interface CartSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
+export function CartSidebar() {
   const { items, total, updateQuantity, removeItem } = useCart();
-  const { navigateWithLoading } = useNavigationLoading();
+  const { isOpen, closeSidebar } = useCartSidebar();
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -45,8 +41,8 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   };
 
   const handleCheckout = () => {
-    onClose();
-    navigateWithLoading('/cart');
+    closeSidebar();
+    router.push('/cart');
   };
 
   if (!isVisible) return null;
@@ -61,7 +57,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
         bottom={0}
         bg="blackAlpha.500"
         zIndex={999}
-        onClick={onClose}
+        onClick={closeSidebar}
         style={{
           opacity: isAnimating ? 1 : 0,
           transition: 'opacity 300ms ease-in-out'
@@ -76,8 +72,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
         width="400px"
         maxWidth="90vw"
         bg="background"
-        borderLeft="1px solid"
-        borderColor="border"
+        className="border-l"
         zIndex={1000}
         overflowY="auto"
         style={{
@@ -86,11 +81,11 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
         }}
       >
         <VStack gap={0} align="stretch" height="100%">
-          <HStack justify="space-between" align="center" p={4} borderBottom="1px solid" borderColor="border">
+          <HStack justify="space-between" align="center" p={4.5} className="border-b" >
             <Text fontSize="lg" fontWeight="bold">
-              Carrinho ({items.length})
+              Carrinho
             </Text>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="sm" onClick={closeSidebar}>
               <IconX size={20} />
             </Button>
           </HStack>
@@ -116,8 +111,8 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                         bg="card"
                         p={3}
                         borderRadius="md"
-                        border="1px solid"
-                        borderColor="border"
+                        className="border"
+                        
                         style={{
                           opacity: isAnimating ? 1 : 0,
                           transform: isAnimating ? 'translateY(0)' : 'translateY(20px)',
@@ -189,8 +184,8 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
 
                 <Box
                   p={4}
-                  borderTop="1px solid"
-                  borderColor="border"
+                  className="border-t"
+                  
                   bg="card"
                   style={{
                     opacity: isAnimating ? 1 : 0,

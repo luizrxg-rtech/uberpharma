@@ -1,52 +1,64 @@
+@layer reset, base, components, utilities;
+
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #0277D1;
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+@layer base {
+  @theme {
+    --color-primary: #0277D1;
+    --color-background: #ffffff;
+    --color-foreground: #171717;
+    --color-border: #E1E7EF;
 
-  --font-display: var(--font-display);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
+    --font-display: var(--font-display);
+    --font-heading: var(--font-heading);
+    --font-body: var(--font-body);
+  }
+
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+
+  body {
+    @apply flex flex-col min-h-screen subpixel-antialiased;
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  * {
+    @apply scroll-smooth border-border;
+    border-color: var(--color-border);
+  }
+
+  *::-webkit-scrollbar {
+    @apply w-5 ;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply
+    bg-gray-300
+    rounded-full
+    border-4
+    border-solid
+    border-transparent;
+    background-clip: content-box;
+  }
+
+  h1 {
+    @apply font-display;
+  }
+
+  h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-* {
-  scroll-behavior: smooth;
-}
-
-*::-webkit-scrollbar {
-  width: 1.25rem;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 9999px;
-  border: 4px solid transparent;
-  background-clip: content-box;
-}
-
-h1 {
-  font-family: var(--font-display), sans-serif;
-}
-
-h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), sans-serif;
-}
-
-main {
-  @apply mt-24;
+@layer components {
+  main {
+    @apply mt-24;
+  }
 }

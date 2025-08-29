@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <footer className="">
-    </footer>
+    <Box as="footer" className="">
+    </Box>
   );
 }

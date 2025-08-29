@@ -12,6 +12,7 @@ export default {
         background: 'var(--color-background)',
         primary: 'var(--color-primary)',
         foreground: 'var(--color-foreground)',
+        border: 'var(--color-border)',
       },
       fontFamily: {
         display: ['var(--font-display)', 'sans-serif'],

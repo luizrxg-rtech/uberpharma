@@ -6,7 +6,9 @@ import {cn} from "@/utils/strings";
 import {Provider} from "@/providers/provider";
 import Header from "@/components/layout/header/header";
 import Footer from "@/components/layout/footer/footer";
-import {LoadingOverlay} from "@/components/ui/loading-overlay";
+import {CartSidebar} from "@/components/layout/cart/cart-sidebar";
+import {useCartSidebar} from "@/contexts/cart-sidebar-context";
+import {Box} from "@chakra-ui/react";
 
 const displayFont = DisplayFont({
   weight: ["400"],
@@ -46,21 +48,21 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={cn(
           displayFont.variable, headingFont.variable, bodyFont.variable,
           bodyFont.className,
-          "subpixel-antialiased relative"
         )}
       >
         <Provider>
-          <LoadingOverlay />
+          <CartSidebar />
           <Header/>
-          <main>
+          <Box as="main">
             {children}
-          </main>
+          </Box>
           <Footer/>
         </Provider>
       </body>

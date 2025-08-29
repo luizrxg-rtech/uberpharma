@@ -72,7 +72,7 @@ const config = defineConfig({
           800: { value: "#c62828" },
           900: { value: "#b71c1c" },
           950: { value: "#8b1538" }
-        }
+        },
       }
     },
 
