@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Menu, Text } from "@chakra-ui/react";
+import {Button, HStack, Menu, Text} from "@chakra-ui/react";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { IconUser, IconLogout, IconLogin } from "@tabler/icons-react";
@@ -30,10 +30,12 @@ export const ProfileButton = () => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button variant="ghost">
-          <IconUser className="mr-2" size={16} />
-          {user?.name || 'Usuário'}
-        </Button>
+        <HStack gap={2}>
+          <IconUser size={16} />
+          <Text fontSize="sm" color="muted.foreground">
+            {user?.name || 'Usuário'}
+          </Text>
+        </HStack>
       </Menu.Trigger>
       <Menu.Content>
         <Menu.Item value="email">

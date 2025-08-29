@@ -76,19 +76,23 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for users table
+-- Allow users to view their own profile using auth.uid()
 CREATE POLICY "Users can view their own profile" ON users
-  FOR SELECT USING (auth.uid() = id);
+  FOR SELECT USING (auth.uid()::text = id::text);
 
-CREATE POLICY "Users can update their own profile" ON users
-  FOR UPDATE USING (auth.uid() = id);
-
+-- Allow users to insert their own profile using auth.uid()
 CREATE POLICY "Users can insert their own profile" ON users
-  FOR INSERT WITH CHECK (auth.uid() = id);
+  FOR INSERT WITH CHECK (auth.uid()::text = id::text);
 
--- Create policies for products table
+-- Allow users to update their own profile using auth.uid()
+CREATE POLICY "Users can update their own profile" ON users
+  FOR UPDATE USING (auth.uid()::text = id::text);
+
+-- Create policies for products table (public read access)
 CREATE POLICY "Allow public read access on products" ON products
   FOR SELECT USING (true);
 
+-- Allow authenticated users to modify products (admin functionality)
 CREATE POLICY "Allow authenticated users to modify products" ON products
   FOR ALL USING (auth.role() = 'authenticated');
 

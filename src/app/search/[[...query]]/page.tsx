@@ -36,7 +36,6 @@ export default function SearchPage() {
 
         setProducts(fetchedProducts);
       } catch (err) {
-        console.error('Error fetching products:', err);
         setError('Erro ao carregar produtos. Tente novamente.');
       } finally {
         setLoading(false);

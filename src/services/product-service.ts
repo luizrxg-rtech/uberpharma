@@ -8,7 +8,6 @@ export class ProductService {
       .order('name', { ascending: true })
 
     if (error) {
-      console.error('Error fetching products:', error)
       throw error
     }
 
@@ -23,7 +22,6 @@ export class ProductService {
       .single()
 
     if (error) {
-      console.error('Error fetching product:', error)
       return null
     }
 
@@ -38,7 +36,6 @@ export class ProductService {
       .order('name', { ascending: true })
 
     if (error) {
-      console.error('Error fetching products by category:', error)
       throw error
     }
 
@@ -53,7 +50,6 @@ export class ProductService {
       .order('name', { ascending: true })
 
     if (error) {
-      console.error('Error searching products:', error)
       throw error
     }
 
@@ -66,7 +62,6 @@ export class ProductService {
       .select('category')
 
     if (error) {
-      console.error('Error fetching categories:', error)
       throw error
     }
 
@@ -81,7 +76,6 @@ export class ProductService {
       .eq('id', id)
 
     if (error) {
-      console.error('Error updating product quantity:', error)
       return false
     }
 

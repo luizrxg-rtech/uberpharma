@@ -95,17 +95,19 @@ export default function LoginPage() {
 
     setLoading(true);
     setErrors([]);
+    setSuccess('');
 
     try {
-      const success = await login(loginData.email, loginData.password);
+      const result = await login(loginData.email, loginData.password);
 
-      if (success) {
+      if (result.success) {
         setSuccess('Login realizado com sucesso!');
+
         setTimeout(() => {
           router.push('/');
         }, 1000);
       } else {
-        setErrors(['E-mail ou senha inválidos']);
+        setErrors([result.error || 'E-mail ou senha inválidos']);
       }
     } catch (error) {
       setErrors(['Erro ao fazer login. Tente novamente.']);
@@ -125,17 +127,19 @@ export default function LoginPage() {
 
     setLoading(true);
     setErrors([]);
+    setSuccess('');
 
     try {
-      const success = await register(registerData.name, registerData.email, registerData.password);
+      const result = await register(registerData.email, registerData.password, registerData.name);
 
-      if (success) {
-        setSuccess('Conta criada com sucesso!');
+      if (result.success) {
+        setSuccess('Conta criada com sucesso! Verifique seu e-mail para confirmar a conta.');
+
         setTimeout(() => {
           router.push('/');
-        }, 1000);
+        }, 2000);
       } else {
-        setErrors(['E-mail já está em uso']);
+        setErrors([result.error || 'Erro ao criar conta']);
       }
     } catch (error) {
       setErrors(['Erro ao criar conta. Tente novamente.']);

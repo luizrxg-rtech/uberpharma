@@ -84,12 +84,6 @@ export default function Header() {
               </Badge>
             )}
           </Button>
-          <Button
-            variant="ghost"
-            onClick={() => router.push(isAuthenticated ? '/profile' : '/login')}
-          >
-            <IconUser />
-          </Button>
           <ProfileButton/>
         </HStack>
       </HStack>

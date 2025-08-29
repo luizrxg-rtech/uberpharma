@@ -40,7 +40,6 @@ export default function ProductPage() {
         const foundProduct = await ProductService.getProductById(id as string);
         setProduct(foundProduct);
       } catch (err) {
-        console.error('Error fetching product:', err);
         setError('Erro ao carregar produto. Tente novamente.');
       } finally {
         setLoading(false);

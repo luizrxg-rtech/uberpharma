@@ -24,7 +24,6 @@ export class OrderService {
       .single()
 
     if (orderError) {
-      console.error('Error creating order:', orderError)
       return null
     }
 
@@ -40,7 +39,6 @@ export class OrderService {
       .insert(orderItems)
 
     if (itemsError) {
-      console.error('Error creating order items:', itemsError)
       await supabase.from('orders').delete().eq('id', order.id)
       return null
     }
@@ -66,7 +64,6 @@ export class OrderService {
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error('Error fetching user orders:', error)
       return []
     }
 
@@ -88,7 +85,6 @@ export class OrderService {
       .single()
 
     if (orderError) {
-      console.error('Error fetching order:', orderError)
       return { order: null, items: [] }
     }
 
@@ -101,7 +97,6 @@ export class OrderService {
       .eq('order_id', orderId)
 
     if (itemsError) {
-      console.error('Error fetching order items:', itemsError)
       return { order, items: [] }
     }
 
@@ -123,7 +118,6 @@ export class OrderService {
       .eq('id', orderId)
 
     if (error) {
-      console.error('Error updating order status:', error)
       return false
     }
 
@@ -145,7 +139,6 @@ export class OrderService {
       .eq('status', 'pending')
 
     if (error) {
-      console.error('Error cancelling order:', error)
       return false
     }
 
@@ -165,7 +158,6 @@ export class OrderService {
       .select('status')
 
     if (error) {
-      console.error('Error fetching order statistics:', error)
       return {
         total: 0,
         pending: 0,
