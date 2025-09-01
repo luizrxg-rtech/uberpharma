@@ -161,9 +161,13 @@ export default function ProductPage() {
                 </Text>
               </VStack>
 
-              <Text fontSize="lg" color="muted.foreground" lineHeight="1.6">
-                {product.description}
-              </Text>
+              <Box
+                fontSize="lg"
+                className="text-muted-foreground"
+                lineHeight="1.6"
+                data-html-content
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
 
               <VStack gap={4} align="stretch">
                 <HStack gap={4} align="center">
@@ -218,9 +222,6 @@ export default function ProductPage() {
 
               <VStack gap={2} align="stretch" pt={4} className="border-t" >
                 <Text fontWeight="medium">Informações do produto:</Text>
-                <Text fontSize="sm" color="muted.foreground">
-                  • Produto natural e terapêutico
-                </Text>
                 <Text fontSize="sm" color="muted.foreground">
                   • Categoria: {product.category}
                 </Text>
