@@ -52,3 +52,12 @@ export interface Order {
   status: 'pending' | 'completed' | 'cancelled'
   created_at: string
 }
+
+export enum Category {
+  BEM_ESTAR = "Bem-estar",
+  COSMECEUTICOS = "Cosmecêuticos",
+  DERMATOLOGICOS = "Dermatológicos",
+  ESPORTES = "Esportes",
+  HIGIENE_PESSOAL = "Higiene Pessoal",
+  SUPLEMENTOS = "Suplementos"
+}
