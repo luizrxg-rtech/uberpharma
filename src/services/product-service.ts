@@ -1,14 +1,42 @@
-import { supabase, Product } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase'
+import { Product } from '@/types'
 
 export class ProductService {
+  static async createProduct(productData: {
+    name: string
+    description: string
+    price: number
+    category: string
+    stock: number
+    image_url?: string
+  }): Promise<Product> {
+    const { data, error } = await supabase
+      .from('products')
+      .insert({
+        ...productData,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Erro ao criar produto:', error)
+      throw new Error(`Erro ao criar produto: ${error.message}`)
+    }
+
+    return data
+  }
+
   static async getAllProducts(): Promise<Product[]> {
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .order('name', { ascending: true })
+      .order('created_at', { ascending: false })
 
     if (error) {
-      throw error
+      console.error('Erro ao buscar produtos:', error)
+      throw new Error(`Erro ao buscar produtos: ${error.message}`)
     }
 
     return data || []
@@ -22,10 +50,51 @@ export class ProductService {
       .single()
 
     if (error) {
+      console.error('Erro ao buscar produto:', error)
       return null
     }
 
     return data
+  }
+
+  static async updateProduct(id: string, productData: Partial<{
+    name: string
+    description: string
+    price: number
+    category: string
+    stock: number
+    image_url: string
+  }>): Promise<Product> {
+    const { data, error } = await supabase
+      .from('products')
+      .update({
+        ...productData,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Erro ao atualizar produto:', error)
+      throw new Error(`Erro ao atualizar produto: ${error.message}`)
+    }
+
+    return data
+  }
+
+  static async deleteProduct(id: string): Promise<boolean> {
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      console.error('Erro ao deletar produto:', error)
+      return false
+    }
+
+    return true
   }
 
   static async getProductsByCategory(category: string): Promise<Product[]> {
@@ -36,7 +105,8 @@ export class ProductService {
       .order('name', { ascending: true })
 
     if (error) {
-      throw error
+      console.error('Erro ao buscar produtos por categoria:', error)
+      throw new Error(`Erro ao buscar produtos por categoria: ${error.message}`)
     }
 
     return data || []
@@ -46,44 +116,14 @@ export class ProductService {
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
+      .or(`name.ilike.%${query}%, description.ilike.%${query}%`)
       .order('name', { ascending: true })
 
     if (error) {
-      throw error
+      console.error('Erro ao buscar produtos:', error)
+      throw new Error(`Erro ao buscar produtos: ${error.message}`)
     }
 
     return data || []
-  }
-
-  static async getCategories(): Promise<string[]> {
-    const { data, error } = await supabase
-      .from('products')
-      .select('category')
-
-    if (error) {
-      throw error
-    }
-
-    const uniqueCategories = [...new Set(data?.map(item => item.category) || [])]
-    return uniqueCategories
-  }
-
-  static async updateProductQuantity(id: string, quantity: number): Promise<boolean> {
-    const { error } = await supabase
-      .from('products')
-      .update({ quantity })
-      .eq('id', id)
-
-    if (error) {
-      return false
-    }
-
-    return true
-  }
-
-  static async checkProductAvailability(id: string, requestedQuantity: number): Promise<boolean> {
-    const product = await this.getProductById(id)
-    return product ? product.quantity >= requestedQuantity : false
   }
 }

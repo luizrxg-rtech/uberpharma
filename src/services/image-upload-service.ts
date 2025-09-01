@@ -1,27 +1,17 @@
 import { supabase } from '@/utils/supabase'
+import { ImageUploadResult } from '@/types'
 
 export class ImageUploadService {
   private static readonly BUCKET_NAME = 'product-images'
-  private static readonly MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
-  private static readonly ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
-  static async uploadImage(file: File, productSku: string): Promise<string> {
-    // Validar arquivo
-    if (!this.ALLOWED_TYPES.includes(file.type)) {
-      throw new Error('Tipo de arquivo não suportado. Use JPEG, PNG ou WebP.')
-    }
-
-    if (file.size > this.MAX_FILE_SIZE) {
-      throw new Error('Arquivo muito grande. Tamanho máximo: 5MB.')
-    }
-
-    // Gerar nome único para o arquivo
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${productSku}_${Date.now()}.${fileExt}`
-    const filePath = `products/${fileName}`
-
+  static async uploadImage(file: File): Promise<ImageUploadResult> {
     try {
-      // Upload do arquivo
+      // Gerar nome único para o arquivo
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+      const filePath = `products/${fileName}`
+
+      // Upload do arquivo para o Supabase Storage
       const { data, error } = await supabase.storage
         .from(this.BUCKET_NAME)
         .upload(filePath, file, {
@@ -30,60 +20,81 @@ export class ImageUploadService {
         })
 
       if (error) {
-        console.error('Erro no upload:', error)
-        throw new Error('Erro ao fazer upload da imagem.')
+        throw new Error(`Erro no upload: ${error.message}`)
       }
 
-      // Obter URL pública da imagem
-      const { data: urlData } = supabase.storage
+      // Obter a URL pública da imagem
+      const { data: publicUrl } = supabase.storage
         .from(this.BUCKET_NAME)
         .getPublicUrl(filePath)
 
-      return urlData.publicUrl
+      return {
+        url: publicUrl.publicUrl,
+        path: filePath
+      }
     } catch (error) {
-      console.error('Erro no upload:', error)
-      throw new Error('Erro ao fazer upload da imagem.')
+      console.error('Erro no upload da imagem:', error)
+      throw error
     }
   }
 
-  static async deleteImage(imageUrl: string): Promise<void> {
+  static async deleteImage(filePath: string): Promise<void> {
     try {
-      // Extrair o path da URL
-      const url = new URL(imageUrl)
-      const pathParts = url.pathname.split('/')
-      const bucketIndex = pathParts.findIndex(part => part === this.BUCKET_NAME)
-
-      if (bucketIndex === -1) {
-        console.warn('URL da imagem não parece ser do bucket correto')
-        return
-      }
-
-      const filePath = pathParts.slice(bucketIndex + 1).join('/')
-
       const { error } = await supabase.storage
         .from(this.BUCKET_NAME)
         .remove([filePath])
 
       if (error) {
-        console.error('Erro ao deletar imagem:', error)
-        // Não lançar erro para não interromper outras operações
+        throw new Error(`Erro ao deletar imagem: ${error.message}`)
       }
     } catch (error) {
       console.error('Erro ao deletar imagem:', error)
-      // Não lançar erro para não interromper outras operações
+      throw error
     }
   }
 
-  static async updateImage(oldImageUrl: string, newFile: File, productSku: string): Promise<string> {
+  static async updateProductImage(productId: string, imageUrl: string, imagePath?: string): Promise<void> {
     try {
-      // Upload da nova imagem
-      const newImageUrl = await this.uploadImage(newFile, productSku)
+      const { error } = await supabase
+        .from('products')
+        .update({
+          image_url: imageUrl,
+          image_path: imagePath || null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', productId)
 
-      // Deletar imagem antiga (sem aguardar para não bloquear)
-      this.deleteImage(oldImageUrl).catch(console.error)
-
-      return newImageUrl
+      if (error) {
+        throw new Error(`Erro ao atualizar produto: ${error.message}`)
+      }
     } catch (error) {
+      console.error('Erro ao atualizar produto:', error)
+      throw error
+    }
+  }
+
+  static async deleteProductImageFromStorage(productId: string): Promise<void> {
+    try {
+      // Buscar o caminho da imagem no banco
+      const { data: product, error: fetchError } = await supabase
+        .from('products')
+        .select('image_path')
+        .eq('id', productId)
+        .single()
+
+      if (fetchError) {
+        throw new Error(`Erro ao buscar produto: ${fetchError.message}`)
+      }
+
+      // Se existe um caminho de imagem, deletar do storage
+      if (product?.image_path) {
+        await this.deleteImage(product.image_path)
+      }
+
+      // Limpar URLs no banco
+      await this.updateProductImage(productId, '', undefined)
+    } catch (error) {
+      console.error('Erro ao deletar imagem do produto:', error)
       throw error
     }
   }

@@ -1,4 +1,5 @@
-import { supabase, Product } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase'
+import { Product } from '@/types'
 import { ImageUploadService } from './image-upload-service'
 
 export class AdminProductService {

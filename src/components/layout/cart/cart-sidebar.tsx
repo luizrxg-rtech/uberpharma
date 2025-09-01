@@ -121,8 +121,8 @@ export function CartSidebar() {
                       >
                         <HStack gap={3} align="start">
                           <Image
-                            src={item.image}
-                            alt={item.name}
+                            src={item.product.image_url}
+                            alt={item.product.name}
                             boxSize="60px"
                             objectFit="cover"
                             borderRadius="md"
@@ -130,13 +130,13 @@ export function CartSidebar() {
 
                           <VStack flex={1} gap={1} align="stretch">
                             <Text fontWeight="medium" fontSize="sm" lineClamp={2}>
-                              {item.name}
+                              {item.product.name}
                             </Text>
                             <Text fontSize="xs" color="muted.foreground">
-                              {item.category}
+                              {item.product.category}
                             </Text>
                             <Text fontWeight="bold" color="primary.600" fontSize="sm">
-                              R$ {item.price.toFixed(2)}
+                              R$ {item.product.price.toFixed(2)}
                             </Text>
                           </VStack>
 
@@ -145,19 +145,18 @@ export function CartSidebar() {
                               <Button
                                 size="xs"
                                 variant="outline"
-                                onClick={() => handleQuantityChange(item.id, Math.max(1, item.cartQuantity - 1))}
-                                disabled={item.cartQuantity <= 1}
+                                onClick={() => handleQuantityChange(item.id, Math.max(1, item.quantity - 1))}
+                                disabled={item.quantity <= 1}
                               >
                                 -
                               </Button>
                               <Text fontSize="sm" minW="20px" textAlign="center">
-                                {item.cartQuantity}
+                                {item.quantity}
                               </Text>
                               <Button
                                 size="xs"
                                 variant="outline"
-                                onClick={() => handleQuantityChange(item.id, Math.min(item.quantity, item.cartQuantity + 1))}
-                                disabled={item.cartQuantity >= item.quantity}
+                                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                               >
                                 +
                               </Button>
@@ -173,7 +172,7 @@ export function CartSidebar() {
                             </Button>
 
                             <Text fontWeight="bold" fontSize="sm">
-                              R$ {(item.price * item.cartQuantity).toFixed(2)}
+                              R$ {(item.product.price * item.quantity).toFixed(2)}
                             </Text>
                           </VStack>
                         </HStack>

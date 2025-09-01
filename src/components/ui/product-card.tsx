@@ -38,13 +38,13 @@ export function ProductCard({ product }: ProductCardProps) {
       <VStack gap={4} align="stretch" p={4}>
         <Box position="relative" aspectRatio={1} overflow="hidden" borderRadius="md">
           <Image
-            src={product.image}
+            src={product.image_url}
             alt={product.name}
             objectFit="cover"
             width="100%"
             height="100%"
           />
-          {product.quantity === 0 && (
+          {product.stock === 0 && (
             <Badge
               position="absolute"
               top={2}
@@ -68,7 +68,7 @@ export function ProductCard({ product }: ProductCardProps) {
             size="sm"
             colorScheme="primary"
             onClick={handleAddToCart}
-            disabled={product.quantity === 0}
+            disabled={product.stock === 0}
           >
             <IconPlus className="mr-1" size={16} />
             Adicionar

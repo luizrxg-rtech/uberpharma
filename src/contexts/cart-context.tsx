@@ -32,22 +32,27 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       if (existingItem) {
         const updatedItems = state.items.map(item =>
           item.id === action.payload.id
-            ? { ...item, cartQuantity: item.cartQuantity + 1 }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
 
         return {
           items: updatedItems,
-          total: updatedItems.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
-          itemCount: updatedItems.reduce((sum, item) => sum + item.cartQuantity, 0)
+          total: updatedItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+          itemCount: updatedItems.reduce((sum, item) => sum + item.quantity, 0)
         };
       }
 
-      const newItems = [...state.items, { ...action.payload, cartQuantity: 1 }];
+      const newItem: CartItem = {
+        id: action.payload.id,
+        product: action.payload,
+        quantity: 1
+      };
+      const newItems = [...state.items, newItem];
       return {
         items: newItems,
-        total: newItems.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
-        itemCount: newItems.reduce((sum, item) => sum + item.cartQuantity, 0)
+        total: newItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+        itemCount: newItems.reduce((sum, item) => sum + item.quantity, 0)
       };
     }
 
@@ -55,8 +60,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       const newItems = state.items.filter(item => item.id !== action.payload);
       return {
         items: newItems,
-        total: newItems.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
-        itemCount: newItems.reduce((sum, item) => sum + item.cartQuantity, 0)
+        total: newItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+        itemCount: newItems.reduce((sum, item) => sum + item.quantity, 0)
       };
     }
 
@@ -67,14 +72,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
       const updatedItems = state.items.map(item =>
         item.id === action.payload.id
-          ? { ...item, cartQuantity: action.payload.quantity }
+          ? { ...item, quantity: action.payload.quantity }
           : item
       );
 
       return {
         items: updatedItems,
-        total: updatedItems.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
-        itemCount: updatedItems.reduce((sum, item) => sum + item.cartQuantity, 0)
+        total: updatedItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+        itemCount: updatedItems.reduce((sum, item) => sum + item.quantity, 0)
       };
     }
 
@@ -90,12 +95,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
+const initialState: CartState = {
+  items: [],
+  total: 0,
+  itemCount: 0
+};
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(cartReducer, {
-    items: [],
-    total: 0,
-    itemCount: 0
-  });
+  const [state, dispatch] = useReducer(cartReducer, initialState);
 
   const addItem = (product: Product) => {
     dispatch({ type: 'ADD_ITEM', payload: product });

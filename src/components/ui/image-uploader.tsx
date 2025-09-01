@@ -1,149 +1,207 @@
+'use client'
 
-  return (
-    <div className="space-y-4">
-      <label className="block text-sm font-medium text-gray-700">
-        Imagem do Produto
-      </label>
-
-      {/* Preview da imagem */}
-      {preview && (
-        <div className="relative inline-block">
-          <img
-            src={preview}
-            alt="Preview do produto"
-            className="w-32 h-32 object-cover rounded-lg border border-gray-300"
-          />
-          {!disabled && (
-            <button
-              type="button"
-              onClick={handleRemoveImage}
-              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-              disabled={uploading}
-            >
-              ×
-            </button>
-          )}
-          {uploading && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
-              <div className="text-white text-sm">Enviando...</div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Botões de ação */}
-      <div className="flex gap-3">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={handleFileSelect}
-          className="hidden"
-          disabled={disabled || uploading}
-        />
-
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={disabled || uploading}
-          className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors ${
-            disabled || uploading
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500'
-          }`}
-        >
-          {uploading ? 'Enviando...' : (preview ? 'Alterar Imagem' : 'Escolher Imagem')}
-        </button>
-
-        {preview && !disabled && (
-          <button
-            type="button"
-            onClick={handleRemoveImage}
-            disabled={uploading}
-            className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors ${
-              uploading
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300'
-                : 'bg-white text-red-600 border-red-300 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500'
-            }`}
-          >
-            Remover
-          </button>
-        )}
-      </div>
-
-      {/* Informações sobre o upload */}
-      <p className="text-xs text-gray-500">
-        Formatos aceitos: JPEG, PNG, WebP. Tamanho máximo: 5MB.
-      </p>
-    </div>
-  )
-}
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { ImageUploadService } from '@/services/image-upload-service'
+import { ImageUploadResult } from '@/types'
 
 interface ImageUploaderProps {
+  onImageUploaded: (result: ImageUploadResult | null) => void
   currentImageUrl?: string
-  onImageUploaded: (imageUrl: string) => void
-  productSku: string
+  productId?: string
   disabled?: boolean
+  accept?: string
+  maxSizeInMB?: number
 }
 
 export default function ImageUploader({
-  currentImageUrl,
   onImageUploaded,
-  productSku,
-  disabled = false
+  currentImageUrl,
+  productId,
+  disabled = false,
+  accept = 'image/*',
+  maxSizeInMB = 5
 }: ImageUploaderProps) {
-  const [uploading, setUploading] = useState(false)
   const [preview, setPreview] = useState<string | null>(currentImageUrl || null)
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const validateFile = useCallback((file: File): string | null => {
+    if (!file.type.startsWith('image/')) {
+      return 'Por favor, selecione apenas arquivos de imagem.'
+    }
+
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024
+    if (file.size > maxSizeInBytes) {
+      return `O arquivo deve ter no máximo ${maxSizeInMB}MB.`
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!allowedTypes.includes(file.type)) {
+      return 'Formato não suportado. Use JPEG, PNG, WebP ou GIF.'
+    }
+
+    return null
+  }, [maxSizeInMB])
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
-    // Mostrar preview imediatamente
-    const previewUrl = URL.createObjectURL(file)
-    setPreview(previewUrl)
+    setError(null)
+
+    const validationError = validateFile(file)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
 
     setUploading(true)
 
     try {
-      let imageUrl: string
+      const previewUrl = URL.createObjectURL(file)
+      setPreview(previewUrl)
 
-      if (currentImageUrl && currentImageUrl !== '') {
-        // Atualizar imagem existente
-        imageUrl = await ImageUploadService.updateImage(currentImageUrl, file, productSku)
-      } else {
-        // Upload nova imagem
-        imageUrl = await ImageUploadService.uploadImage(file, productSku)
+      const uploadResult = await ImageUploadService.uploadImage(file)
+
+      if (productId) {
+        await ImageUploadService.updateProductImage(productId, uploadResult.url, uploadResult.path)
       }
 
-      onImageUploaded(imageUrl)
+      onImageUploaded(uploadResult)
 
-      // Limpar preview temporário e usar URL real
       URL.revokeObjectURL(previewUrl)
-      setPreview(imageUrl)
 
-    } catch (error: any) {
-      alert(`Erro no upload: ${error.message}`)
+      setPreview(uploadResult.url)
 
-      // Reverter preview em caso de erro
+    } catch (error) {
+      console.error('Erro no upload:', error)
+      setError(error instanceof Error ? error.message : 'Erro desconhecido no upload')
       setPreview(currentImageUrl || null)
-      URL.revokeObjectURL(previewUrl)
+      onImageUploaded(null)
     } finally {
       setUploading(false)
-      // Limpar input para permitir re-upload do mesmo arquivo
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
     }
   }
 
-  const handleRemoveImage = () => {
-    setPreview(null)
-    onImageUploaded('')
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+  const handleRemoveImage = async () => {
+    setError(null)
+    setUploading(true)
+
+    try {
+      if (productId) {
+        await ImageUploadService.updateProductImage(productId, '', '')
+      }
+
+      setPreview(null)
+      onImageUploaded(null)
+
+    } catch (error) {
+      console.error('Erro ao remover imagem:', error)
+      setError(error instanceof Error ? error.message : 'Erro ao remover imagem')
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
+
+  const handleClick = () => {
+    if (!disabled && !uploading) {
+      fileInputRef.current?.click()
+    }
+  }
+
+  return (
+    <div className="w-full">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={accept}
+        onChange={handleFileSelect}
+        className="hidden"
+        disabled={disabled || uploading}
+      />
+
+      <div
+        onClick={handleClick}
+        className={`
+          relative border-2 border-dashed rounded-lg p-6 text-center transition-colors
+          ${preview ? 'border-green-300 bg-green-50' : 'border-gray-300 bg-gray-50'}
+          ${disabled || uploading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:border-gray-400'}
+        `}
+      >
+        {preview ? (
+          <div className="relative">
+            <img
+              src={preview}
+              alt="Preview"
+              className="max-w-full max-h-64 mx-auto rounded-lg shadow-md"
+            />
+            {!uploading && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleRemoveImage()
+                }}
+                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
+                disabled={disabled}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="py-8">
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            <p className="text-sm text-gray-600 mb-2">
+              {uploading ? 'Fazendo upload...' : 'Clique para selecionar uma imagem'}
+            </p>
+            <p className="text-xs text-gray-400">
+              JPEG, PNG, WebP ou GIF (máx. {maxSizeInMB}MB)
+            </p>
+          </div>
+        )}
+
+        {uploading && (
+          <div className="absolute inset-0 bg-white bg-opacity-75 rounded-lg flex items-center justify-center">
+            <div className="flex items-center space-x-2">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+              <span className="text-sm text-gray-600">Enviando...</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {error && (
+        <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
+
+      {preview && !uploading && (
+        <div className="mt-2 text-xs text-gray-500 text-center">
+          Imagem carregada com sucesso
+        </div>
+      )}
+    </div>
+  )
+}

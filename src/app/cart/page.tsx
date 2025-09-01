@@ -74,8 +74,8 @@ export default function CartPage() {
               <Box key={item.id} bg="card" p={4} borderRadius="lg" className="border" >
                 <HStack gap={4} align="start">
                   <Image
-                    src={item.image}
-                    alt={item.name}
+                    src={item.product.image_url}
+                    alt={item.product.name}
                     boxSize="100px"
                     objectFit="cover"
                     borderRadius="md"
@@ -83,13 +83,13 @@ export default function CartPage() {
 
                   <VStack flex={1} gap={2} align="stretch">
                     <Text fontWeight="semibold" fontSize="lg">
-                      {item.name}
+                      {item.product.name}
                     </Text>
                     <Text fontSize="sm" color="muted.foreground">
-                      {item.category}
+                      {item.product.category}
                     </Text>
                     <Text fontWeight="bold" color="primary.600">
-                      R$ {item.price.toFixed(2)}
+                      R$ {item.product.price.toFixed(2)}
                     </Text>
                   </VStack>
 
@@ -97,7 +97,7 @@ export default function CartPage() {
                     <HStack gap={2}>
                       <input
                         type="number"
-                        value={item.cartQuantity}
+                        value={item.quantity}
                         onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 1)}
                         min={1}
                         max={item.quantity}
@@ -113,7 +113,7 @@ export default function CartPage() {
                       </Button>
                     </HStack>
                     <Text fontWeight="bold">
-                      R$ {(item.price * item.cartQuantity).toFixed(2)}
+                      R$ {(item.product.price * item.quantity).toFixed(2)}
                     </Text>
                   </VStack>
                 </HStack>

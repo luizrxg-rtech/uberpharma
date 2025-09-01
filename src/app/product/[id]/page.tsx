@@ -66,7 +66,7 @@ export default function ProductPage() {
 
   const handleQuantityChange = (value: string) => {
     const newQuantity = parseInt(value) || 1;
-    setQuantity(Math.max(1, Math.min(newQuantity, product?.quantity || 1)));
+    setQuantity(Math.max(1, Math.min(newQuantity, product?.stock || 1)));
   };
 
   if (loading) {
@@ -126,13 +126,13 @@ export default function ProductPage() {
             <VStack gap={4}>
               <Box position="relative" w="100%" aspectRatio={1} overflow="hidden" borderRadius="lg" bg="gray.50">
                 <Image
-                  src={product.image}
+                  src={product.image_url}
                   alt={product.name}
                   objectFit="cover"
                   width="100%"
                   height="100%"
                 />
-                {product.quantity === 0 && (
+                {product.stock === 0 && (
                   <Badge
                     position="absolute"
                     top={4}
@@ -177,7 +177,7 @@ export default function ProductPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      disabled={quantity <= 1 || product.quantity === 0}
+                      disabled={quantity <= 1 || product.stock === 0}
                     >
                       -
                     </Button>
@@ -186,15 +186,15 @@ export default function ProductPage() {
                       value={quantity}
                       onChange={(e) => handleQuantityChange(e.target.value)}
                       min={1}
-                      max={product.quantity}
-                      disabled={product.quantity === 0}
+                      max={product.stock}
+                      disabled={product.stock === 0}
                       className="w-16 px-2 py-1 border border-gray-300 rounded text-center"
                     />
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => setQuantity(Math.min(product.quantity, quantity + 1))}
-                      disabled={quantity >= product.quantity || product.quantity === 0}
+                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                      disabled={quantity >= product.stock || product.stock === 0}
                     >
                       +
                     </Button>
@@ -202,8 +202,8 @@ export default function ProductPage() {
                 </HStack>
 
                 <Text fontSize="sm" color="muted.foreground">
-                  {product.quantity > 0
-                    ? `${product.quantity} unidades disponíveis`
+                  {product.stock > 0
+                    ? `${product.stock} unidades disponíveis`
                     : 'Produto indisponível'
                   }
                 </Text>
@@ -212,11 +212,11 @@ export default function ProductPage() {
                   size="lg"
                   colorScheme="primary"
                   onClick={handleAddToCart}
-                  disabled={product.quantity === 0}
+                  disabled={product.stock === 0}
                   width="100%"
                 >
                   <IconShoppingCart className="mr-2" size={20} />
-                  {product.quantity > 0 ? 'Adicionar ao Carrinho' : 'Indisponível'}
+                  {product.stock > 0 ? 'Adicionar ao Carrinho' : 'Indisponível'}
                 </Button>
               </VStack>
 

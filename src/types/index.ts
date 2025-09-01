@@ -1,26 +1,54 @@
 export interface Product {
-  id: string;
-  sku: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  quantity: number;
+  id: string
+  name: string
+  description: string
+  price: number
+  image_url?: string
+  category: string
+  stock: number
+  created_at: string
+  updated_at: string
 }
 
-export interface CartItem extends Product {
-  cartQuantity: number;
+export interface ImageUploadResult {
+  url: string
+  path: string
 }
 
 export interface User {
-  id: string;
-  email: string;
-  name: string;
-  isLoggedIn: boolean;
+  id: string
+  email: string
+  name: string
+  role?: 'admin' | 'user'
+  isLoggedIn?: boolean
 }
 
 export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
+  user: User | null
+  isAuthenticated: boolean
+}
+
+export interface CartItem {
+  id: string
+  product: Product
+  quantity: number
+}
+
+export interface OrderItem {
+  id: string
+  order_id: string
+  product_id: string
+  quantity: number
+  price_at_time: number
+  created_at: string
+  updated_at: string
+}
+
+export interface Order {
+  id: string
+  user_id: string
+  items: CartItem[]
+  total: number
+  status: 'pending' | 'completed' | 'cancelled'
+  created_at: string
 }

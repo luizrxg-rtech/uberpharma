@@ -1,4 +1,5 @@
-import { supabase, User, Order, OrderItem } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase'
+import { User, Order, OrderItem } from '@/types'
 
 export class UserService {
   static async getCurrentUserProfile(): Promise<User | null> {
@@ -28,7 +29,12 @@ export class UserService {
   static async upsertUserProfile(profile: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User | null> {
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return null
+      if (!user) {
+        console.error('Usuário não autenticado ao tentar criar perfil')
+        return null
+      }
+
+      console.log('Tentando criar perfil para usuário:', user.id)
 
       const { data, error } = await supabase
         .from('users')
@@ -41,12 +47,15 @@ export class UserService {
         .single()
 
       if (error) {
-        return null
+        console.error('Erro ao criar perfil do usuário:', error)
+        throw error
       }
 
+      console.log('Perfil criado com sucesso:', data)
       return data
     } catch (error) {
-      return null
+      console.error('Erro no upsertUserProfile:', error)
+      throw error
     }
   }
 

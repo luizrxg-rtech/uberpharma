@@ -1,4 +1,5 @@
-import { supabase, Order, OrderItem, Product } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase'
+import { Order, CartItem, Product, OrderItem } from '@/types'
 
 export class OrderService {
   static async createOrder(
@@ -46,7 +47,7 @@ export class OrderService {
     for (const item of items) {
       await supabase
         .from('products')
-        .update({ quantity: item.product.quantity - item.quantity })
+        .update({ quantity: item.product.stock - item.quantity })
         .eq('id', item.product.id)
     }
 

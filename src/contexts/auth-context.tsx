@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {
       id: supabaseUser.id,
       email: supabaseUser.email || '',
-      name: profile?.full_name || supabaseUser.email?.split('@')[0] || 'Usuário',
+      name: profile?.name || supabaseUser.email?.split('@')[0] || 'Usuário',
       isLoggedIn: true
     };
   };
@@ -127,12 +127,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-
         try {
-          // Criar perfil do usuário na tabela users
+          // Criar perfil do usuário na tabela users usando o ID do Supabase Auth
           await UserService.upsertUserProfile({
             email,
-            full_name: name
+            name: name
           });
 
           const user = await mapSupabaseUser(data.user);
@@ -144,6 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           return { success: true };
         } catch (profileError) {
+          console.error('Erro ao criar perfil:', profileError);
           return { success: false, error: 'Erro ao criar perfil do usuário' };
         }
       }
