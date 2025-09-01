@@ -56,17 +56,9 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </Box>
 
-        <VStack gap={2} align="stretch">
-          <Text fontSize="sm" color="muted.foreground" textTransform="uppercase">
-            {product.category}
-          </Text>
-          <Text fontWeight="semibold" lineHeight="1.2">
-            {product.name}
-          </Text>
-          <Text fontSize="sm" color="muted.foreground" lineClamp={2}>
-            {product.description}
-          </Text>
-        </VStack>
+        <Text fontWeight="semibold" lineHeight="1.2">
+          {product.name}
+        </Text>
 
         <HStack justify="space-between" align="center">
           <Text fontSize="lg" fontWeight="bold">
