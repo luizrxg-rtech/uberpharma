@@ -1,5 +1,9 @@
 import type {Metadata} from "next";
-import {Hammersmith_One as DisplayFont, Poppins as HeadingFont, Poppins as BodyFont} from "next/font/google";
+import {
+  Paytone_One as DisplayFont,
+  Plus_Jakarta_Sans as HeadingFont,
+  Plus_Jakarta_Sans as BodyFont
+} from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import {cn} from "@/utils/strings";
@@ -7,7 +11,6 @@ import {Provider} from "@/providers/provider";
 import Header from "@/components/layout/header/header";
 import Footer from "@/components/layout/footer/footer";
 import {CartSidebar} from "@/components/layout/cart/cart-sidebar";
-import {useCartSidebar} from "@/contexts/cart-sidebar-context";
 import {Box} from "@chakra-ui/react";
 
 const displayFont = DisplayFont({
@@ -17,13 +20,13 @@ const displayFont = DisplayFont({
 });
 
 const headingFont = HeadingFont({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-heading",
   subsets: ["latin"],
 });
 
 const bodyFont = BodyFont({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-body",
   subsets: ["latin"],
 });
