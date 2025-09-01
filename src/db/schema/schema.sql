@@ -17,7 +17,7 @@ CREATE INDEX idx_users_email ON users(email);
 
 -- Create products table
 CREATE TABLE products (
-  id TEXT PRIMARY KEY,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   sku INTEGER UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
@@ -44,10 +44,11 @@ CREATE TABLE orders (
 CREATE TABLE order_items (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
-  product_id TEXT REFERENCES products(id) ON DELETE CASCADE,
+  product_id UUID REFERENCES products(id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL,
   price_at_time DECIMAL(10,2) NOT NULL, -- Price when the order was placed
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Create index for better performance
