@@ -1,4 +1,5 @@
 import { supabase, Product } from '@/utils/supabase'
+import { ImageUploadService } from './image-upload-service'
 
 export class AdminProductService {
   static async createProduct(productData: {
@@ -47,12 +48,34 @@ export class AdminProductService {
   }
 
   static async deleteProduct(id: string): Promise<boolean> {
-    const { error } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', id)
+    try {
+      // Primeiro, buscar o produto para obter a URL da imagem
+      const { data: product } = await supabase
+        .from('products')
+        .select('image')
+        .eq('id', id)
+        .single()
 
-    return !error
+      // Deletar o produto do banco
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id)
+
+      if (error) {
+        throw error
+      }
+
+      // Se o produto tinha uma imagem, tentar deletá-la do storage
+      if (product?.image) {
+        ImageUploadService.deleteImage(product.image).catch(console.error)
+      }
+
+      return true
+    } catch (error) {
+      console.error('Erro ao deletar produto:', error)
+      return false
+    }
   }
 
   static async getAllProductsForAdmin(): Promise<Product[]> {

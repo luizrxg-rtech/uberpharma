@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase, Product } from '@/utils/supabase'
 import { AdminProductService } from '@/services/admin-product-service'
+import ImageUploader from '@/components/ui/image-uploader'
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'create' | 'manage'>('create')
@@ -44,6 +45,13 @@ export default function AdminPage() {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }))
+  }
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setFormData(prev => ({
+      ...prev,
+      image: imageUrl
     }))
   }
 
@@ -305,18 +313,11 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-                  URL da Imagem
-                </label>
-                <input
-                  type="text"
-                  id="image"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Ex: /products/produto_300x.png"
+                <ImageUploader
+                  currentImageUrl={formData.image}
+                  onImageUploaded={handleImageUploaded}
+                  productSku={formData.sku || 'temp'}
+                  disabled={loading}
                 />
               </div>
 
