@@ -160,6 +160,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: null,
         isAuthenticated: false
       });
+      localStorage.removeItem('sp-' + process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID + 'auth-state');
+      window.location.reload();
     } catch (error) {
     }
   };

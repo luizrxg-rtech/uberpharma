@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS products (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+    weight DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+    measure VARCHAR(2) NOT NULL CHECK (measure IN ('g', 'kg', 'ml', 'l')),
     image_url TEXT,
     image_path TEXT,
     category VARCHAR(100) NOT NULL,

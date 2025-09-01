@@ -3,6 +3,8 @@ export interface Product {
   name: string
   description: string
   price: number
+  weight: number
+  measure: Measure
   image_url?: string
   category: string
   stock: number
@@ -53,7 +55,7 @@ export interface Order {
   created_at: string
 }
 
-export enum Category {
+export enum Categories {
   BEM_ESTAR = "Bem-estar",
   COSMECEUTICOS = "Cosmecêuticos",
   DERMATOLOGICOS = "Dermatológicos",
@@ -61,3 +63,12 @@ export enum Category {
   HIGIENE_PESSOAL = "Higiene Pessoal",
   SUPLEMENTOS = "Suplementos"
 }
+
+export enum Measures {
+  GRAM = "g",
+  KILOGRAM = "kg",
+  MILLILITER = "ml",
+  LITER = "l"
+}
+
+export type Measure = typeof Measures[keyof typeof Measures];

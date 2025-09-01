@@ -2,19 +2,17 @@
 
 import {TextField} from "@/components/ui/text-field";
 import {KeyboardEvent, useState} from "react";
-import {IconSearch, IconShoppingCart, IconUser} from "@tabler/icons-react";
+import {IconSearch, IconShoppingBag} from "@tabler/icons-react";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {ProfileButton} from "@/components/layout/header/profile-button";
 import {useCart} from "@/contexts/cart-context";
-import {useAuth} from "@/contexts/auth-context";
 import {useCartSidebar} from "@/contexts/cart-sidebar-context";
-import {Badge, Box, Button, HStack, VStack} from "@chakra-ui/react";
+import {Badge, HStack, IconButton, VStack} from "@chakra-ui/react";
 
 export default function Header() {
   const router = useRouter();
   const { itemCount } = useCart();
-  const { isAuthenticated, user } = useAuth();
   const { toggleSidebar } = useCartSidebar();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -39,8 +37,7 @@ export default function Header() {
       as="header"
       align="center"
       justify="stretch"
-      p={4}
-      className="fixed top-0 left-0 right-0 z-50 border-b bg-background"
+      p={42}
     >
       <HStack
         align="center"
@@ -50,26 +47,34 @@ export default function Header() {
         <Image
           src="/logo.png"
           alt="Logo"
-          width={100}
-          height={100}
-          className="cursor-pointer"
+          width={781}
+          height={184}
+          className="cursor-pointer h-10 w-auto"
           onClick={handleLogoClick}
         />
         <TextField
           value={searchQuery}
           onChange={setSearchQuery}
           onKeyDown={handleKeyDown}
-          placeholder="Pesquisar produtos"
-          startElement={<IconSearch/>}
-          className="max-w-md"
+          placeholder="Buscar produtos"
+          startElement={<IconSearch size={16}/>}
+          className="max-w-md font-semibold"
+          variant="subtle"
         />
         <HStack gap={4}>
-          <Button
-            variant="ghost"
+          <IconButton
+            variant="subtle"
             onClick={toggleSidebar}
             position="relative"
+            bg="bg.muted"
+            color="fg"
+            borderRadius="full"
+            _hover={{
+              bg: "bg.emphasized"
+            }}
+            p={2}
           >
-            <IconShoppingCart />
+            <IconShoppingBag size={20}/>
             {itemCount > 0 && (
               <Badge
                 position="absolute"
@@ -83,7 +88,7 @@ export default function Header() {
                 {itemCount}
               </Badge>
             )}
-          </Button>
+          </IconButton>
           <ProfileButton/>
         </HStack>
       </HStack>

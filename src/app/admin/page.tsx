@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import ImageUploader from '@/components/ui/image-uploader'
-import {Category, ImageUploadResult, Product} from '@/types'
+import {ImageUploadResult, Product, Measures, Categories} from '@/types'
 import { ProductService } from '@/services/product-service'
 
 interface EditFormData {
   name: string
   description: string
   price: string
+  weight: string
+  measure: Measure | ''
   category: string
   stock: string
 }
@@ -26,6 +28,8 @@ export default function AdminPage() {
     name: '',
     description: '',
     price: '',
+    weight: '',
+    measure: '' as Measure | '',
     category: '',
     stock: ''
   })
@@ -35,6 +39,8 @@ export default function AdminPage() {
     name: '',
     description: '',
     price: '',
+    weight: '',
+    measure: '' as Measure | '',
     category: '',
     stock: ''
   })
@@ -69,6 +75,8 @@ export default function AdminPage() {
       name: '',
       description: '',
       price: '',
+      weight: '',
+      measure: '' as Measure | '',
       category: '',
       stock: ''
     })
@@ -77,8 +85,8 @@ export default function AdminPage() {
   }
 
   const handleCreateProduct = async () => {
-    if (!formData.name || !formData.price || !formData.category) {
-      alert('Por favor, preencha os campos obrigatórios: nome, preço e categoria')
+    if (!formData.name || !formData.price || !formData.category || !formData.weight || !formData.measure) {
+      alert('Por favor, preencha os campos obrigatórios: nome, preço, categoria, peso e medida')
       return
     }
 
@@ -89,6 +97,8 @@ export default function AdminPage() {
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
+        weight: parseFloat(formData.weight),
+        measure: formData.measure as Measure,
         category: formData.category,
         stock: parseInt(formData.stock) || 0,
         image_url: imageResult?.url || ''
@@ -114,6 +124,8 @@ export default function AdminPage() {
       name: product.name,
       description: product.description || '',
       price: product.price.toString(),
+      weight: product.weight.toString(),
+      measure: product.measure,
       category: product.category,
       stock: product.stock.toString()
     })
@@ -125,6 +137,8 @@ export default function AdminPage() {
       name: '',
       description: '',
       price: '',
+      weight: '',
+      measure: '' as Measure | '',
       category: '',
       stock: ''
     })
@@ -133,8 +147,8 @@ export default function AdminPage() {
   const handleUpdateProduct = async (productId: string) => {
     const formData = editFormData
 
-    if (!formData.name || !formData.price || !formData.category) {
-      alert('Por favor, preencha os campos obrigatórios: nome, preço e categoria')
+    if (!formData.name || !formData.price || !formData.category || !formData.weight || !formData.measure) {
+      alert('Por favor, preencha os campos obrigatórios: nome, preço, categoria, peso e medida')
       return
     }
 
@@ -145,6 +159,8 @@ export default function AdminPage() {
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
+        weight: parseFloat(formData.weight),
+        measure: formData.measure as Measure,
         category: formData.category,
         stock: parseInt(formData.stock) || 0
       }
@@ -156,6 +172,8 @@ export default function AdminPage() {
         name: '',
         description: '',
         price: '',
+        weight: '',
+        measure: '' as Measure | '',
         category: '',
         stock: ''
       })
@@ -268,13 +286,50 @@ export default function AdminPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Selecione uma categoria</option>
-              {Object.values(Category).map((cat, index) => {
+              {Object.values(Categories).map((category, index) => {
                 return (
                   <option
                     key={index}
-                    value={cat}
+                    value={category}
                   >
-                    {cat}
+                    {category}
+                  </option>
+                )
+              })}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Peso *
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              value={formData.weight}
+              onChange={(e) => setFormData(prev => ({ ...prev, weight: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Digite o peso do produto"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Medida *
+            </label>
+            <select
+              value={formData.measure}
+              onChange={(e) => setFormData(prev => ({ ...prev, measure: e.target.value as Measure }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Selecione a medida</option>
+              {Object.values(Measures).map((measure, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={measure}
+                  >
+                    {measure}
                   </option>
                 )
               })}
@@ -306,7 +361,7 @@ export default function AdminPage() {
 
           <button
             onClick={handleCreateProduct}
-            disabled={isLoading || !formData.name || !formData.price || !formData.category}
+            disabled={isLoading || !formData.name || !formData.price || !formData.category || !formData.weight || !formData.measure}
             className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isLoading ? (
@@ -339,6 +394,8 @@ export default function AdminPage() {
                   <th className="text-left py-3 px-4">Categoria</th>
                   <th className="text-left py-3 px-4">Preço</th>
                   <th className="text-left py-3 px-4">Estoque</th>
+                  <th className="text-left py-3 px-4">Peso</th>
+                  <th className="text-left py-3 px-4">Medida</th>
                   <th className="text-left py-3 px-4">Ações</th>
                 </tr>
               </thead>
@@ -388,7 +445,7 @@ export default function AdminPage() {
                           onChange={(e) => setEditFormData(prev => ({ ...prev, category: e.target.value }))}
                           className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
-                          {Object.values(Category).map((cat) => (
+                          {Object.values(Categories).map((cat) => (
                             <option key={cat} value={cat}>{cat}</option>
                           ))}
                         </select>
@@ -430,6 +487,45 @@ export default function AdminPage() {
                             : 'bg-red-100 text-red-800'
                         }`}>
                           {product.stock} unidades
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
+                      {editingProductId === product.id ? (
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={editFormData.weight || ''}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, weight: e.target.value }))}
+                          className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                      ) : (
+                        <span className="font-medium">
+                          {product.weight}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
+                      {editingProductId === product.id ? (
+                        <select
+                          value={editFormData.measure || ''}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, measure: e.target.value as Measure }))}
+                          className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        >
+                          {Object.values(Measures).map((measure, index) => {
+                            return (
+                              <option
+                                key={index}
+                                value={measure}
+                              >
+                                {measure}
+                              </option>
+                            )
+                          })}
+                        </select>
+                      ) : (
+                        <span className="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+                          {product.measure}
                         </span>
                       )}
                     </td>

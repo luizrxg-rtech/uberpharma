@@ -100,7 +100,10 @@
 }
 
 @layer components {
-  main {
-    margin-top: 73px;
+
+  input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 }

@@ -84,6 +84,7 @@ export const TextField = ({
           disabled={disabled}
           type={type}
           size={size}
+          borderRadius={12}
           {...(mask ? { ref: withMask(mask) } : {})}
         />
       </InputGroup>

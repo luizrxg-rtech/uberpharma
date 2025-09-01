@@ -3,7 +3,7 @@
 import {Button, HStack, Menu, Text} from "@chakra-ui/react";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
-import { IconUser, IconLogout, IconLogin } from "@tabler/icons-react";
+import {IconUser, IconLogout, IconLogin, IconUserCircle} from "@tabler/icons-react";
 
 export const ProfileButton = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -20,8 +20,17 @@ export const ProfileButton = () => {
 
   if (!isAuthenticated) {
     return (
-      <Button variant="outline" onClick={handleLogin}>
-        <IconLogin className="mr-2" size={16} />
+      <Button
+        variant="subtle"
+        onClick={handleLogin}
+        bg="bg.muted"
+        color="fg"
+        borderRadius="full"
+        _hover={{
+          bg: "bg.emphasized"
+        }}
+      >
+        <IconUserCircle size={16} />
         Entrar
       </Button>
     );
@@ -31,23 +40,28 @@ export const ProfileButton = () => {
     <Menu.Root>
       <Menu.Trigger asChild>
         <HStack gap={2}>
-          <IconUser size={16} />
-          <Text fontSize="sm" color="muted.foreground">
-            {user?.name || 'Usuário'}
-          </Text>
+          <Button
+            variant="subtle"
+            bg="bg.muted"
+            color="fg"
+            borderRadius="full"
+            _hover={{
+              bg: "bg.emphasized"
+            }}
+          >
+            <IconUserCircle size={16} />
+            Minha conta
+          </Button>
         </HStack>
       </Menu.Trigger>
-      <Menu.Content>
-        <Menu.Item value="email">
-          <Text fontSize="sm" color="muted.foreground">
-            {user?.email}
-          </Text>
-        </Menu.Item>
-        <Menu.Item value="logout" onClick={handleLogout}>
-          <IconLogout className="mr-2" size={16} />
-          Sair
-        </Menu.Item>
-      </Menu.Content>
+      <Menu.Positioner>
+        <Menu.Content>
+          <Menu.Item value="logout" onClick={handleLogout}>
+            <IconLogout className="mr-2" size={16} />
+            Sair
+          </Menu.Item>
+        </Menu.Content>
+      </Menu.Positioner>
     </Menu.Root>
   );
 };
