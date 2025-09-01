@@ -50,14 +50,12 @@ export class AdminProductService {
 
   static async deleteProduct(id: string): Promise<boolean> {
     try {
-      // Primeiro, buscar o produto para obter a URL da imagem
       const { data: product } = await supabase
         .from('products')
         .select('image')
         .eq('id', id)
         .single()
 
-      // Deletar o produto do banco
       const { error } = await supabase
         .from('products')
         .delete()
@@ -67,7 +65,6 @@ export class AdminProductService {
         throw error
       }
 
-      // Se o produto tinha uma imagem, tentar deletá-la do storage
       if (product?.image) {
         ImageUploadService.deleteImage(product.image).catch(console.error)
       }

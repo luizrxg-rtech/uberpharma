@@ -39,7 +39,6 @@ export default function AdminPage() {
     stock: ''
   })
 
-  // Carregar produtos ao montar o componente
   useEffect(() => {
     loadProducts()
   }, [])
@@ -200,7 +199,6 @@ export default function AdminPage() {
     <div className="container flex flex-col mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 mx-auto">Administração de Produtos</h1>
 
-      {/* Seção de Criação de Produto */}
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-xl font-semibold mb-6">Criar Novo Produto</h2>
 
@@ -323,7 +321,6 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Seção de Lista de Produtos */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-6">Produtos Cadastrados</h2>
 

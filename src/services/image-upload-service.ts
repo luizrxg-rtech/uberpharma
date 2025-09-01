@@ -6,12 +6,10 @@ export class ImageUploadService {
 
   static async uploadImage(file: File): Promise<ImageUploadResult> {
     try {
-      // Gerar nome único para o arquivo
       const fileExt = file.name.split('.').pop()
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
       const filePath = `products/${fileName}`
 
-      // Upload do arquivo para o Supabase Storage
       const { data, error } = await supabase.storage
         .from(this.BUCKET_NAME)
         .upload(filePath, file, {
@@ -23,7 +21,6 @@ export class ImageUploadService {
         throw new Error(`Erro no upload: ${error.message}`)
       }
 
-      // Obter a URL pública da imagem
       const { data: publicUrl } = supabase.storage
         .from(this.BUCKET_NAME)
         .getPublicUrl(filePath)
@@ -75,7 +72,6 @@ export class ImageUploadService {
 
   static async deleteProductImageFromStorage(productId: string): Promise<void> {
     try {
-      // Buscar o caminho da imagem no banco
       const { data: product, error: fetchError } = await supabase
         .from('products')
         .select('image_path')
@@ -86,12 +82,10 @@ export class ImageUploadService {
         throw new Error(`Erro ao buscar produto: ${fetchError.message}`)
       }
 
-      // Se existe um caminho de imagem, deletar do storage
       if (product?.image_path) {
         await this.deleteImage(product.image_path)
       }
 
-      // Limpar URLs no banco
       await this.updateProductImage(productId, '', undefined)
     } catch (error) {
       console.error('Erro ao deletar imagem do produto:', error)

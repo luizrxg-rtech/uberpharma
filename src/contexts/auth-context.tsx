@@ -128,7 +128,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (data.user) {
         try {
-          // Criar perfil do usuário na tabela users usando o ID do Supabase Auth
           await UserService.upsertUserProfile({
             email,
             name: name
