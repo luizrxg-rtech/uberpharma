@@ -148,11 +148,11 @@ export default function AdminPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Selecione uma categoria</option>
-              <option value="medicamentos">Medicamentos</option>
-              <option value="vitaminas">Vitaminas</option>
-              <option value="cosmeticos">Cosméticos</option>
-              <option value="higiene">Higiene</option>
-              <option value="suplementos">Suplementos</option>
+              <option value="Bem-estar">Bem-estar</option>
+              <option value="Cosmecêuticos">Cosmecêuticos</option>
+              <option value="Dermatológicos">Dermatológicos</option>
+              <option value="Esportes">Esportes</option>
+              <option value="Higiene Pessoal">Higiene Pessoal</option>
             </select>
           </div>
 
