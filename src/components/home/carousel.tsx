@@ -37,6 +37,22 @@ const carouselItems = [
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        const nextValue = prev + 1;
+        return nextValue >= 5000 ? 0 : nextValue;
+      });
+    }, 1);
+
+    return () => clearInterval(timerInterval);
+  }, []);
+
+  const getTimerValue = (): number => {
+    return timer;
+  };
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -124,7 +140,7 @@ export default function Carousel() {
             >
               {isCurrent &&
                 <CircularProgress
-                  progress={100}
+                  progress={getTimerValue() / 5}
                   size={14}
                   strokeWidth={1.5}
                   color="white"
