@@ -132,6 +132,7 @@ export default function CartSidebar() {
                             boxSize="60px"
                             objectFit="cover"
                             borderRadius="md"
+                            loading="lazy"
                           />
 
                           <VStack flex={1} gap={1} align="stretch">

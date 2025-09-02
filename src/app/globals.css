@@ -108,6 +108,12 @@
     box-shadow: none !important;
   }
 
+  a {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
   .chakra-menu__item {
     cursor: pointer !important;
   }
@@ -120,7 +126,8 @@
     min-height: 15px;
     max-height: 15px;
   }
-}
 
-@layer components {
+  .decoration-none {
+    text-decoration: none !important;
+  }
 }

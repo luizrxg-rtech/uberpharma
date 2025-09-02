@@ -1,6 +1,6 @@
 'use client';
 
-import { Product } from '@/types';
+import { Product } from '@/types/product/types';
 import { useCart } from '@/contexts/cart-context';
 import { useCartSidebar } from '@/contexts/cart-sidebar-context';
 import { useRouter } from 'next/navigation';
@@ -43,6 +43,7 @@ export function ProductCard({ product }: ProductCardProps) {
             objectFit="cover"
             width="100%"
             height="100%"
+            loading="lazy"
           />
           {product.stock === 0 && (
             <Badge

@@ -132,6 +132,7 @@ export default function ProductPage() {
                   objectFit="cover"
                   width="100%"
                   height="100%"
+                  loading="lazy"
                 />
                 {product.stock === 0 && (
                   <Badge

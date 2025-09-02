@@ -1,7 +1,10 @@
+"use client"
+
 import {ReactNode} from "react";
 import {ScrollArea} from "@chakra-ui/react";
 
-export default function Scroll({children}: ReactNode) {
+export default function Scroll({children}: { children: ReactNode }) {
+
   return (
     <ScrollArea.Root
       height="100vh"

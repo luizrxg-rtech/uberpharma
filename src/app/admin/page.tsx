@@ -413,6 +413,7 @@ export default function AdminPage() {
                             fill
                             className="object-cover rounded"
                             sizes="48px"
+                            loading="lazy"
                           />
                         </div>
                       ) : (

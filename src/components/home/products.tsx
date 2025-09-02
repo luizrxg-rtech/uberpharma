@@ -115,7 +115,7 @@ const mockProducts: Product[] = [
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock2.png",
-    category: Categories.HIGIENE_PESSOAL,
+    category: Categories.HIGIENE,
     stock: 20,
     created_at: "",
     updated_at: ""
@@ -128,7 +128,7 @@ const mockProducts: Product[] = [
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock3.png",
-    category: Categories.HIGIENE_PESSOAL,
+    category: Categories.HIGIENE,
     stock: 20,
     created_at: "",
     updated_at: ""
@@ -167,7 +167,7 @@ export default function Products() {
 
   return (
     <VStack>
-      <Text>Products</Text>
+      <Text></Text>
     </VStack>
   )
 }

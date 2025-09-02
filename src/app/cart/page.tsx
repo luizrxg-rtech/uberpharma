@@ -79,6 +79,7 @@ export default function CartPage() {
                     boxSize="100px"
                     objectFit="cover"
                     borderRadius="md"
+                    loading="lazy"
                   />
 
                   <VStack flex={1} gap={2} align="stretch">

@@ -14,8 +14,6 @@ export default function LinkList({
   return (
     <VStack
       align="start"
-      fontSize="sm"
-      fontWeight="medium"
       gap={10}
     >
       <Text

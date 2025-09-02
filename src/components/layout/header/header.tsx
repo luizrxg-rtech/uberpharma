@@ -51,6 +51,7 @@ export default function Header() {
           height={184}
           className="cursor-pointer h-10 w-auto"
           onClick={handleLogoClick}
+          loading="lazy"
         />
         <TextField
           value={searchQuery}

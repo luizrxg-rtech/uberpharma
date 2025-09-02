@@ -10,6 +10,6 @@ export enum Categories {
   COSMECEUTICOS = "Cosmecêuticos",
   DERMATOLOGICOS = "Dermatológicos",
   ESPORTES = "Esportes",
-  HIGIENE_PESSOAL = "Higiene Pessoal",
+  HIGIENE = "Higiene",
   SUPLEMENTOS = "Suplementos"
 }

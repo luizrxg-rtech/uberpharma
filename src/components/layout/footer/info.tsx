@@ -16,6 +16,7 @@ export default function Info() {
         width={781}
         height={184}
         className="cursor-pointer h-10 w-auto"
+        loading="lazy"
       />
       <Text>
         Fundada em 2008, a UberPharma oferece produtos farmacêuticos que
@@ -25,10 +26,22 @@ export default function Info() {
         mais de 60 produtos aprovados por especialistas.
       </Text>
       <HStack gap={4}>
-        <IconBrandFacebook  size={40}/>
-        <IconBrandInstagram  size={40}/>
-        <IconBrandTiktok  size={40}/>
-        <IconBrandLinkedin  size={40}/>
+        <IconBrandFacebook
+          strokeWidth={1.2}
+          size={40}
+        />
+        <IconBrandInstagram
+          strokeWidth={1.2}
+          size={40}
+        />
+        <IconBrandTiktok
+          strokeWidth={1.2}
+          size={40}
+        />
+        <IconBrandLinkedin
+          strokeWidth={1.2}
+          size={40}
+        />
       </HStack>
       <Text>
         Estrada Municipal Thereza Thomazella,  432, Distrito Industrial Pires, Minas Gerais - MG CEP 37642-564. <br/>
