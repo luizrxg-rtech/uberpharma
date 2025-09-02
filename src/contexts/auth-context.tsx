@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { User, AuthState } from '@/types';
+import { User, AuthState } from '@/types/user/types';
 import { supabase } from '@/utils/supabase';
 import { UserService } from '@/services/user-service';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
@@ -46,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           });
         }
       } catch (error) {
+        console.error(error)
       } finally {
         setLoading(false);
       }
@@ -98,13 +99,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           return { success: true };
         } catch (mapError) {
-          return { success: false, error: 'Erro ao processar dados do usuário' };
+          return { success: false, error: 'Erro ao processar dados do usuário: ' + mapError };
         }
       }
 
       return { success: false, error: 'Dados de usuário não recebidos' };
     } catch (error) {
-      return { success: false, error: 'Erro interno do servidor' };
+      return { success: false, error: 'Erro interno do servidor ' + error };
     }
   };
 
@@ -149,7 +150,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       return { success: false, error: 'Erro ao criar usuário' };
     } catch (error) {
-      return { success: false, error: 'Erro interno do servidor' };
+      return { success: false, error: 'Erro interno do servidor ' + error };
     }
   };
 
@@ -163,6 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem('sp-' + process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID + 'auth-state');
       window.location.reload();
     } catch (error) {
+      console.error(error)
     }
   };
 

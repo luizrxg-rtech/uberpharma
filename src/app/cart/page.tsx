@@ -41,10 +41,10 @@ export default function CartPage() {
         <VStack gap={6} py={12}>
           <IconShoppingBag size={64} color="gray" />
           <Text fontSize="2xl" fontWeight="bold">
-            Seu carrinho está vazio
+            Sua sacola está vazia
           </Text>
           <Text color="muted.foreground" textAlign="center">
-            Adicione alguns produtos ao seu carrinho para continuar
+            Adicione alguns produtos à sua sacola para continuar
           </Text>
           <Button onClick={handleBackClick} colorScheme="primary">
             <IconArrowLeft className="mr-2" size={16} />
@@ -60,7 +60,7 @@ export default function CartPage() {
       <VStack gap={8} align="stretch">
         <HStack justify="space-between" align="center">
           <Text fontSize="3xl" fontWeight="bold">
-            Meu Carrinho
+            Minha sacola
           </Text>
           <Button variant="outline" onClick={handleBackClick}>
             <IconArrowLeft className="mr-2" size={16} />
@@ -122,7 +122,7 @@ export default function CartPage() {
 
             <HStack justify="space-between" pt={4}>
               <Button variant="outline" colorScheme="red" onClick={clearCart}>
-                Limpar Carrinho
+                Limpar sacola
               </Button>
               <Spacer />
             </HStack>

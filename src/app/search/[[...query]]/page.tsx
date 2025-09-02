@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from 'react';
-import { Product } from '@/types';
+import { Product } from '@/types/product/types';
 import { ProductCard } from '@/components/ui/product-card';
 import { SegmentedControl, SegmentOption } from '@/components/ui/segmented-control';
 import { Container, SimpleGrid, Text, VStack, Spinner } from '@chakra-ui/react';
@@ -35,8 +35,9 @@ export default function SearchPage() {
         }
 
         setProducts(fetchedProducts);
-      } catch (err) {
-        setError('Erro ao carregar produtos. Tente novamente.');
+      } catch (error) {
+        setError('Erro ao carregar produtos. Tente novamente. ');
+        console.error('Erro ao carregar produtos:', error);
       } finally {
         setLoading(false);
       }

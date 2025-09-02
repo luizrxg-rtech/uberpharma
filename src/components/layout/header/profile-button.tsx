@@ -1,12 +1,12 @@
 'use client';
 
 import {Button, HStack, Menu, Text} from "@chakra-ui/react";
-import { useAuth } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
-import {IconUser, IconLogout, IconLogin, IconUserCircle} from "@tabler/icons-react";
+import {useAuth} from "@/contexts/auth-context";
+import {useRouter} from "next/navigation";
+import {IconLogout, IconUserCircle} from "@tabler/icons-react";
 
 export const ProfileButton = () => {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const router = useRouter();
 
   const handleLogin = () => {
@@ -55,10 +55,19 @@ export const ProfileButton = () => {
         </HStack>
       </Menu.Trigger>
       <Menu.Positioner>
-        <Menu.Content>
-          <Menu.Item value="logout" onClick={handleLogout}>
-            <IconLogout className="mr-2" size={16} />
-            Sair
+        <Menu.Content bg="bg.muted" color="fg" borderRadius="full">
+          <Menu.Item
+            value="logout"
+            onClick={handleLogout}
+            borderRadius="full"
+            className="cursor-pointer"
+            px={4}
+            py={2}
+          >
+            <IconLogout size={20} />
+            <Text fontWeight="medium" color="fg">
+              Sair
+            </Text>
           </Menu.Item>
         </Menu.Content>
       </Menu.Positioner>

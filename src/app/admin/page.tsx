@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import ImageUploader from '@/components/ui/image-uploader'
-import {ImageUploadResult, Product, Measures, Categories} from '@/types'
 import { ProductService } from '@/services/product-service'
+import {Measure, Product} from "@/types/product/types";
+import {ImageUploadResult} from "@/types/misc/types";
+import {Categories, Measures} from "@/types/product/enums";
 
 interface EditFormData {
   name: string
