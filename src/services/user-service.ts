@@ -34,8 +34,6 @@ export class UserService {
         return null
       }
 
-      console.log('Tentando criar perfil para usuário:', user.id)
-
       const { data, error } = await supabase
         .from('users')
         .upsert({
@@ -51,7 +49,6 @@ export class UserService {
         throw error
       }
 
-      console.log('Perfil criado com sucesso:', data)
       return data
     } catch (error) {
       console.error('Erro no upsertUserProfile:', error)

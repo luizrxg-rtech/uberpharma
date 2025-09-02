@@ -1,21 +1,13 @@
 'use client';
 
-import { useCart } from '@/contexts/cart-context';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import {
-  Box,
-  VStack,
-  HStack,
-  Text,
-  Image,
-  Button,
-  Flex,
-} from '@chakra-ui/react';
-import { IconTrash, IconShoppingBag, IconX } from '@tabler/icons-react';
+import {useCart} from '@/contexts/cart-context';
+import {useRouter} from 'next/navigation';
+import {useEffect, useState} from 'react';
+import {Box, Button, Flex, HStack, IconButton, Image, Text, VStack,} from '@chakra-ui/react';
+import {IconShoppingBag, IconShoppingBagX, IconTrash, IconX} from '@tabler/icons-react';
 import {useCartSidebar} from "@/contexts/cart-sidebar-context";
 
-export function CartSidebar() {
+export default function CartSidebar() {
   const { items, total, updateQuantity, removeItem } = useCart();
   const { isOpen, closeSidebar } = useCartSidebar();
   const router = useRouter();
@@ -70,7 +62,7 @@ export function CartSidebar() {
         right={0}
         bottom={0}
         width="400px"
-        maxWidth="90vw"
+        maxW="90vw"
         bg="background"
         className="border-l"
         zIndex={1000}
@@ -82,20 +74,34 @@ export function CartSidebar() {
       >
         <VStack gap={0} align="stretch" height="100%">
           <HStack justify="space-between" align="center" p={4.5} className="border-b" >
-            <Text fontSize="lg" fontWeight="bold">
-              Carrinho
-            </Text>
-            <Button variant="ghost" size="sm" onClick={closeSidebar}>
+            <HStack>
+              <IconShoppingBag size={20} />
+              <Text fontSize="lg" fontWeight="bold">
+                Sacola
+              </Text>
+            </HStack>
+            <IconButton
+              variant="subtle"
+              onClick={closeSidebar}
+              position="relative"
+              bg="transparent"
+              color="fg"
+              borderRadius="full"
+              _hover={{
+                bg: "bg.emphasized"
+              }}
+              p={2}
+            >
               <IconX size={20} />
-            </Button>
+            </IconButton>
           </HStack>
 
           <Flex flex={1} direction="column">
             {items.length === 0 ? (
               <VStack gap={4} justify="center" flex={1} p={6}>
-                <IconShoppingBag size={48} color="gray" />
+                <IconShoppingBagX size={48} color="gray" />
                 <Text fontSize="lg" fontWeight="medium" textAlign="center">
-                  Seu carrinho está vazio
+                  Sua sacola está vazia
                 </Text>
                 <Text fontSize="sm" color="muted.foreground" textAlign="center">
                   Adicione alguns produtos para continuar

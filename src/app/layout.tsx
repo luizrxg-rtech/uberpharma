@@ -10,7 +10,8 @@ import {cn} from "@/utils/strings";
 import {Provider} from "@/providers/provider";
 import Header from "@/components/layout/header/header";
 import Footer from "@/components/layout/footer/footer";
-import {CartSidebar} from "@/components/layout/cart/cart-sidebar";
+import CartSidebar from "@/components/layout/cart/cart-sidebar";
+import Scroll from "@/components/layout/scroll/scroll";
 import {Box} from "@chakra-ui/react";
 
 const displayFont = DisplayFont({
@@ -61,12 +62,14 @@ export default function RootLayout({
         )}
       >
         <Provider>
-          <CartSidebar />
-          <Header/>
-          <Box as="main">
-            {children}
-          </Box>
-          <Footer/>
+          <Scroll>
+            <CartSidebar />
+            <Header/>
+            <Box as="main">
+              {children}
+            </Box>
+            <Footer/>
+          </Scroll>
         </Provider>
       </body>
     </html>

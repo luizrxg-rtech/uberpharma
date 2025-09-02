@@ -1,4 +1,4 @@
-import {Box, VStack} from "@chakra-ui/react";
+import {VStack} from "@chakra-ui/react";
 import Carousel from "@/components/home/carousel"
 import Products from "@/components/home/products";
 

@@ -1,5 +1,6 @@
-import {Categories, Product, Measures} from "@/types";
 import {VStack, Text} from "@chakra-ui/react";
+import {Product} from "@/types/product/types";
+import {Categories, Measures} from "@/types/product/enums";
 
 const mockProducts: Product[] = [
   {

@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect } from 'react';
-import { Product } from '@/types';
+import { Product } from '@/types/product/types';
 import { useCart } from '@/contexts/cart-context';
 import { useCartSidebar } from '@/contexts/cart-sidebar-context';
 import { useRouter } from 'next/navigation';
@@ -39,8 +39,9 @@ export default function ProductPage() {
         setError(null);
         const foundProduct = await ProductService.getProductById(id as string);
         setProduct(foundProduct);
-      } catch (err) {
-        setError('Erro ao carregar produto. Tente novamente.');
+      } catch (error) {
+        setError('Erro ao carregar produto. Tente novamente. ');
+        console.error('Erro ao carregar produto:', error);
       } finally {
         setLoading(false);
       }
@@ -208,7 +209,7 @@ export default function ProductPage() {
                   width="100%"
                 >
                   <IconShoppingCart className="mr-2" size={20} />
-                  {product.stock > 0 ? 'Adicionar ao Carrinho' : 'Indisponível'}
+                  {product.stock > 0 ? 'Adicionar à sacola' : 'Indisponível'}
                 </Button>
               </VStack>
 

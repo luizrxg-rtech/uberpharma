@@ -39,7 +39,7 @@ export default function Carousel() {
       width="100%"
       height={{ base: "756px", md: "756px", lg: "756px" }}
       bg="white"
-      borderRadius="3xl"
+      borderRadius="4xl"
       overflow="hidden"
       onMouseEnter={pauseAutoPlay}
       onMouseLeave={resumeAutoPlay}
