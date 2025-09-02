@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import {useState, useRef, useCallback, ChangeEvent, MouseEvent} from 'react'
 import { ImageUploadService } from '@/services/image-upload-service'
-import { ImageUploadResult } from '@/types'
+import { ImageUploadResult } from '@/types/misc/types'
 
 interface ImageUploaderProps {
   onImageUploaded: (result: ImageUploadResult | null) => void
@@ -44,7 +44,7 @@ export default function ImageUploader({
     return null
   }, [maxSizeInMB])
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
@@ -87,7 +87,9 @@ export default function ImageUploader({
     }
   }
 
-  const handleRemoveImage = async () => {
+  const handleRemoveImage = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+
     setError(null)
     setUploading(true)
 
@@ -145,8 +147,7 @@ export default function ImageUploader({
             {!uploading && (
               <button
                 onClick={(e) => {
-                  e.stopPropagation()
-                  handleRemoveImage()
+                  handleRemoveImage(e)
                 }}
                 className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
                 disabled={disabled}

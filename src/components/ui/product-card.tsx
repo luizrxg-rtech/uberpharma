@@ -30,7 +30,7 @@ export function ProductCard({product}: ProductCardProps) {
         position="absolute"
         top="4"
         right="4"
-        bg="fg/50"
+        bg="fg/40"
         color="bg"
         borderRadius="full"
         px={3}

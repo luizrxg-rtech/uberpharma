@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import {FormEvent, useState} from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
 import {
@@ -84,7 +84,7 @@ export default function LoginPage() {
     return newErrors;
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     const formErrors = validateLoginForm();
@@ -116,7 +116,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
 
     const formErrors = validateRegisterForm();

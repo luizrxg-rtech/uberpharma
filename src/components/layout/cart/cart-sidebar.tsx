@@ -3,7 +3,7 @@
 import {useCart} from '@/contexts/cart-context';
 import {useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import {Box, Button, Flex, HStack, IconButton, Image, Text, VStack,} from '@chakra-ui/react';
+import {Box, Button, Flex, HStack, IconButton, Image, Text, VStack} from '@chakra-ui/react';
 import {IconShoppingBag, IconShoppingBagX, IconTrash, IconX} from '@tabler/icons-react';
 import {useCartSidebar} from "@/contexts/cart-sidebar-context";
 
