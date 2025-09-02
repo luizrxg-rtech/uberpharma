@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS products (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    line VARCHAR(255) NOT NULL,
     price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     weight DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     measure VARCHAR(2) NOT NULL CHECK (measure IN ('g', 'kg', 'ml', 'l')),

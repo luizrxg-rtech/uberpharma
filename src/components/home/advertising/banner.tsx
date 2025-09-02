@@ -6,7 +6,7 @@ export default function Banner() {
   return (
     <Box
       bg="bg.muted"
-      w="100%"
+      w="full"
       position="relative"
       borderRadius="4xl"
       h="fit"

@@ -36,7 +36,7 @@ export default function Carousel() {
   return (
     <Box
       position="relative"
-      width="100%"
+      w="full"
       height={{ base: "756px", md: "756px", lg: "756px" }}
       bg="white"
       borderRadius="4xl"
@@ -60,7 +60,7 @@ export default function Carousel() {
             height: "100%",
           }}
         >
-          <Box position="relative" width="100%" height="100%">
+          <Box position="relative" w="full" height="full">
             <Image
               src={carouselItems[currentIndex].image}
               alt={carouselItems[currentIndex].alt}

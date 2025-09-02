@@ -6,12 +6,12 @@ export default function Baseline() {
     <HStack
       justify="center"
       className="border-t"
-      w="100%"
+      w="full"
     >
       <HStack
         justify="space-between"
         maxW="7xl"
-        w="100%"
+        w="full"
         py={4}
       >
         <HStack

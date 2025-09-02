@@ -4,19 +4,14 @@
 
 @layer base {
   @theme {
-    --color-primary: #0277D1;
-    --color-background: #ffffff;
-    --color-foreground: #171717;
-    --color-border: #E1E7EF;
+    --color-primary: var(--chakra-colors-color-palette-solid);
+    --color-background: var(--chakra-colors-bg);
+    --color-foreground: var(--chakra-colors-fg);
+    --color-border: var(--chakra-colors-bg-muted);
 
     --font-display: var(--font-display);
     --font-heading: var(--font-heading);
     --font-body: var(--font-body);
-  }
-
-  :root {
-    --background: #FFFFFF;
-    --foreground: #171717;
   }
 
   html {
@@ -25,8 +20,8 @@
 
   body {
     @apply flex flex-col min-h-screen subpixel-antialiased;
-    background: var(--background);
-    color: var(--foreground);
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
 
   * {
@@ -129,5 +124,10 @@
 
   .decoration-none {
     text-decoration: none !important;
+  }
+
+  *::selection {
+    background-color: var(--color-primary);
+    color: var(--color-background);
   }
 }

@@ -11,10 +11,11 @@ import {Categories, Measures} from "@/types/product/enums";
 interface EditFormData {
   name: string
   description: string
+  line: string
   price: string
   weight: string
   measure: Measure | ''
-  category: string
+  category: Category
   stock: string
 }
 
@@ -29,6 +30,7 @@ export default function AdminPage() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    line: '',
     price: '',
     weight: '',
     measure: '' as Measure | '',
@@ -40,6 +42,7 @@ export default function AdminPage() {
   const [editFormData, setEditFormData] = useState<EditFormData>({
     name: '',
     description: '',
+    line: '',
     price: '',
     weight: '',
     measure: '' as Measure | '',
@@ -76,6 +79,7 @@ export default function AdminPage() {
     setFormData({
       name: '',
       description: '',
+      line: '',
       price: '',
       weight: '',
       measure: '' as Measure | '',
@@ -98,6 +102,7 @@ export default function AdminPage() {
       const productData = {
         name: formData.name,
         description: formData.description,
+        line: formData.line,
         price: parseFloat(formData.price),
         weight: parseFloat(formData.weight),
         measure: formData.measure as Measure,
@@ -125,6 +130,7 @@ export default function AdminPage() {
     setEditFormData({
       name: product.name,
       description: product.description || '',
+      line: product.line || '',
       price: product.price.toString(),
       weight: product.weight.toString(),
       measure: product.measure,
@@ -138,6 +144,7 @@ export default function AdminPage() {
     setEditFormData({
       name: '',
       description: '',
+      line: '',
       price: '',
       weight: '',
       measure: '' as Measure | '',
@@ -149,7 +156,7 @@ export default function AdminPage() {
   const handleUpdateProduct = async (productId: string) => {
     const formData = editFormData
 
-    if (!formData.name || !formData.price || !formData.category || !formData.weight || !formData.measure) {
+    if (!formData.name || !formData.line || !formData.price || !formData.category || !formData.weight || !formData.measure) {
       alert('Por favor, preencha os campos obrigatórios: nome, preço, categoria, peso e medida')
       return
     }
@@ -160,6 +167,7 @@ export default function AdminPage() {
       const updateData = {
         name: formData.name,
         description: formData.description,
+        line: formData.line,
         price: parseFloat(formData.price),
         weight: parseFloat(formData.weight),
         measure: formData.measure as Measure,
@@ -173,6 +181,7 @@ export default function AdminPage() {
       setEditFormData({
         name: '',
         description: '',
+        line: '',
         price: '',
         weight: '',
         measure: '' as Measure | '',
@@ -246,6 +255,19 @@ export default function AdminPage() {
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Descrição do produto"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Linha do Produto *
+            </label>
+            <input
+              type="text"
+              value={formData.line}
+              onChange={(e) => setFormData(prev => ({ ...prev, line: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Digite o nome do produto"
             />
           </div>
 
@@ -363,7 +385,7 @@ export default function AdminPage() {
 
           <button
             onClick={handleCreateProduct}
-            disabled={isLoading || !formData.name || !formData.price || !formData.category || !formData.weight || !formData.measure}
+            disabled={isLoading || !formData.name || !formData.line || !formData.price || !formData.category || !formData.weight || !formData.measure}
             className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isLoading ? (
@@ -436,6 +458,25 @@ export default function AdminPage() {
                           {product.description && (
                             <p className="text-sm text-gray-500 truncate max-w-xs">
                               {product.description}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
+                      {editingProductId === product.id ? (
+                        <input
+                          type="text"
+                          value={editFormData.line || ''}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, line: e.target.value }))}
+                          className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                      ) : (
+                        <div>
+                          <p className="font-medium">{product.line}</p>
+                          {product.line && (
+                            <p className="text-sm text-gray-500 truncate max-w-xs">
+                              {product.line}
                             </p>
                           )}
                         </div>

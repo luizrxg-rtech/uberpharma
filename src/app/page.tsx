@@ -1,6 +1,6 @@
 import {VStack} from "@chakra-ui/react";
 import Carousel from "@/components/home/carousel"
-import Products from "@/components/home/products";
+import Products from "@/components/home/products/products";
 import Advertising from "@/components/home/advertising/advertising";
 
 export default function Home() {

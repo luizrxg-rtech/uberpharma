@@ -1,5 +1,6 @@
-import { supabase } from '@/utils/supabase'
-import { Order, CartItem, Product, OrderItem } from '@/types'
+import {supabase} from '@/utils/supabase'
+import {Order, OrderItem} from '@/types/order/types'
+import {Product} from '@/types/product/types'
 
 export class OrderService {
   static async createOrder(
@@ -118,11 +119,7 @@ export class OrderService {
       })
       .eq('id', orderId)
 
-    if (error) {
-      return false
-    }
-
-    return true
+    return !error;
   }
 
   static async cancelOrder(orderId: string): Promise<boolean> {
@@ -139,11 +136,7 @@ export class OrderService {
       .eq('user_id', user.id)
       .eq('status', 'pending')
 
-    if (error) {
-      return false
-    }
-
-    return true
+    return !error;
   }
 
   static async getOrderStatistics(): Promise<{
@@ -178,7 +171,7 @@ export class OrderService {
       cancelled: 0
     }
 
-    const stats = data?.reduce((acc, order) => {
+    return data?.reduce((acc, order) => {
       acc.total++
       if (order.status === 'pending') acc.pending++
       else if (order.status === 'processing') acc.processing++
@@ -187,7 +180,5 @@ export class OrderService {
       else if (order.status === 'cancelled') acc.cancelled++
       return acc
     }, initialStats) || initialStats
-
-    return stats
   }
 }

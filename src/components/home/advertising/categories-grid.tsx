@@ -8,17 +8,16 @@ export default function CategoriesGrid() {
     <SimpleGrid
       columns={3}
       gap={6}
-      w="100%"
-      h="100%"
+      w="full"
+      h="full"
     >
       {Object.values(Categories).map((category, index) => {
         return (
           <Link
             key={index}
             bg="bg.muted"
-            w="100%"
-            height="100%"
-            aspectRatio="1/1"
+            w="full"
+            height="360px"
             position="relative"
             borderRadius="4xl"
             href={`#${category.toLowerCase().replace('-', "")}`}

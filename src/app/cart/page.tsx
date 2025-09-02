@@ -156,7 +156,7 @@ export default function CartPage() {
                 </Text>
               </HStack>
 
-              <Button size="lg" colorScheme="primary" width="100%" onClick={handleCheckout}>
+              <Button size="lg" colorScheme="primary" w="full" onClick={handleCheckout}>
                 Finalizar Compra
               </Button>
 

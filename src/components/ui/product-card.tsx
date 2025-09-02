@@ -1,81 +1,89 @@
 'use client';
 
-import { Product } from '@/types/product/types';
-import { useCart } from '@/contexts/cart-context';
-import { useCartSidebar } from '@/contexts/cart-sidebar-context';
-import { useRouter } from 'next/navigation';
-import { Button, Text, Image, VStack, HStack, Badge, Box } from '@chakra-ui/react';
-import { IconPlus } from '@tabler/icons-react';
-import { MouseEvent } from 'react';
+import {Product} from '@/types/product/types';
+import {useRouter} from 'next/navigation';
+import {Box, HStack, Text, VStack} from '@chakra-ui/react';
+import Image from 'next/image';
+import {IconTagFilled} from "@tabler/icons-react";
 
 interface ProductCardProps {
   product: Product;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
-  const { addItem } = useCart();
-  const { openSidebar } = useCartSidebar();
+export function ProductCard({product}: ProductCardProps) {
   const router = useRouter();
-
-  const handleAddToCart = (e: MouseEvent) => {
-    e.stopPropagation();
-    addItem(product);
-    openSidebar();
-  };
 
   const handleProductClick = () => {
     router.push(`/product/${product.id}`);
   };
 
   return (
-    <Box
-      className="border cursor-pointer hover:shadow-lg transition-shadow duration-200"
+    <VStack
+      className="cursor-pointer hover:scale-95 transition-all duration-300"
       onClick={handleProductClick}
-      bg="card"
-      borderRadius="lg"
-      overflow="hidden"
+      minW="193px"
+      align="stretch"
+      position="relative"
+      gap={2}
     >
-      <VStack gap={4} align="stretch" p={4}>
-        <Box position="relative" aspectRatio={1} overflow="hidden" borderRadius="md">
-          <Image
-            src={product.image_url}
-            alt={product.name}
-            objectFit="cover"
-            width="100%"
-            height="100%"
-            loading="lazy"
-          />
-          {product.stock === 0 && (
-            <Badge
-              position="absolute"
-              top={2}
-              right={2}
-              colorScheme="gray"
-            >
-              Fora de Estoque
-            </Badge>
-          )}
-        </Box>
-
-        <Text fontWeight="semibold" lineHeight="1.2">
-          {product.name}
+      <Box
+        position="absolute"
+        top="4"
+        right="4"
+        bg="fg/50"
+        color="bg"
+        borderRadius="full"
+        px={3}
+        py={1}
+        fontSize="xs"
+        fontWeight="bold"
+        w="60px"
+      >
+        <Text justifySelf="center">
+          {product.weight}{product.measure}
         </Text>
+      </Box>
+      <Image
+        src={product.image_url || '/mock1.png'}
+        alt={product.name}
+        width={193}
+        height={193}
+        className="rounded-3xl"
+        loading="lazy"
+      />
 
-        <HStack justify="space-between" align="center">
-          <Text fontSize="lg" fontWeight="bold">
-            R$ {product.price.toFixed(2)}
-          </Text>
-          <Button
-            size="sm"
-            colorScheme="primary"
-            onClick={handleAddToCart}
-            disabled={product.stock === 0}
+      <Text
+        fontSize="sm"
+        fontWeight="medium"
+        lineHeight="1.2"
+        mt={2}
+      >
+        {product.name}
+      </Text>
+
+      <VStack
+        align="start"
+        gap={2}
+      >
+        <Text
+          fontSize="md"
+          fontWeight="bold"
+          lineHeight="1.2"
+        >
+          R$ {product.price.toFixed(2)}
+        </Text>
+        <HStack align="center">
+          <IconTagFilled color="green" size={14} />
+          <Text
+            fontSize="xs"
+            fontWeight="semibold"
+            color="green"
+            lineHeight="1.2"
           >
-            <IconPlus className="mr-1" size={16} />
-            Adicionar
-          </Button>
+            10% OFF no PIX
+          </Text>
         </HStack>
       </VStack>
-    </Box>
+    </VStack>
   );
 }

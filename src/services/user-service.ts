@@ -1,5 +1,5 @@
-import { supabase } from '@/utils/supabase'
-import { User, Order, OrderItem } from '@/types'
+import {supabase} from '@/utils/supabase'
+import {User} from '@/types/user/types'
 
 export class UserService {
   static async getCurrentUserProfile(): Promise<User | null> {

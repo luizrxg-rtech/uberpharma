@@ -61,7 +61,7 @@ export default function CartSidebar() {
         top={0}
         right={0}
         bottom={0}
-        width="400px"
+        w="400px"
         maxW="90vw"
         bg="background"
         className="border-l"
@@ -72,7 +72,7 @@ export default function CartSidebar() {
           transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
-        <VStack gap={0} align="stretch" height="100%">
+        <VStack gap={0} align="stretch" height="full">
           <HStack justify="space-between" align="center" p={4.5} className="border-b" >
             <HStack>
               <IconShoppingBag size={20} />
@@ -210,7 +210,7 @@ export default function CartSidebar() {
                     <Button
                       size="lg"
                       colorScheme="primary"
-                      width="100%"
+                      w="full"
                       onClick={handleCheckout}
                     >
                       Finalizar Compra

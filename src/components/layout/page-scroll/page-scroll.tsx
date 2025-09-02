@@ -3,7 +3,7 @@
 import {ReactNode} from "react";
 import {ScrollArea} from "@chakra-ui/react";
 
-export default function Scroll({children}: { children: ReactNode }) {
+export default function PageScroll({children}: { children: ReactNode }) {
 
   return (
     <ScrollArea.Root

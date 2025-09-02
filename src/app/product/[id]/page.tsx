@@ -125,7 +125,7 @@ export default function ProductPage() {
         <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={8}>
           <GridItem>
             <VStack gap={4}>
-              <Box position="relative" w="100%" aspectRatio={1} overflow="hidden" borderRadius="lg" bg="gray.50">
+              <Box position="relative" w="full" aspectRatio={1} overflow="hidden" borderRadius="lg" bg="gray.50">
                 <Image
                   src={product.image_url}
                   alt={product.name}
@@ -207,7 +207,7 @@ export default function ProductPage() {
                   colorScheme="primary"
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  width="100%"
+                  w="full"
                 >
                   <IconShoppingCart className="mr-2" size={20} />
                   {product.stock > 0 ? 'Adicionar à sacola' : 'Indisponível'}

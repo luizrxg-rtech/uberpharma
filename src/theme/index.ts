@@ -5,17 +5,17 @@ const config = defineConfig({
     tokens: {
       colors: {
         brand: {
-          50: { value: "#e1f4fd" },
-          100: { value: "#b3e1fb" },
-          200: { value: "#80cdf8" },
-          300: { value: "#4db8f5" },
-          400: { value: "#26a5f2" },
-          500: { value: "#0277D1" },
-          600: { value: "#0269bc" },
-          700: { value: "#0256a3" },
-          800: { value: "#01448a" },
-          900: { value: "#012a60" },
-          950: { value: "#011d42" }
+          50: { value: "#e8f6fd" },
+          100: { value: "#c2e7fb" },
+          200: { value: "#8dd4f7" },
+          300: { value: "#4bbef2" },
+          400: { value: "#1da7ed" },
+          500: { value: "#0087DD" },
+          600: { value: "#0074c4" },
+          700: { value: "#005da0" },
+          800: { value: "#004883" },
+          900: { value: "#003568" },
+          950: { value: "#002447" }
         },
 
         accent: {
@@ -100,7 +100,7 @@ const config = defineConfig({
           "focusRing": { value: "{colors.brand.500}" }
         },
 
-        "bg": {
+        bg: {
           "canvas": {
             value: { base: "white", _dark: "gray.900" }
           },

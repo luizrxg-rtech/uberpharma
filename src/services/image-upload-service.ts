@@ -1,5 +1,5 @@
 import { supabase } from '@/utils/supabase'
-import { ImageUploadResult } from '@/types'
+import { ImageUploadResult } from '@/types/misc/types'
 
 export class ImageUploadService {
   private static readonly BUCKET_NAME = 'product-images'
@@ -10,7 +10,7 @@ export class ImageUploadService {
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
       const filePath = `products/${fileName}`
 
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from(this.BUCKET_NAME)
         .upload(filePath, file, {
           cacheControl: '3600',

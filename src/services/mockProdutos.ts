@@ -1,18 +1,18 @@
-import {VStack, Text} from "@chakra-ui/react";
 import {Product} from "@/types/product/types";
 import {Categories, Measures} from "@/types/product/enums";
 
-const mockProducts: Product[] = [
+export const mockProducts: Product[] = [
   {
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock1.png",
     category: Categories.BEM_ESTAR,
-    stock: 20,
+    stock: 1,
     created_at: "",
     updated_at: ""
   },
@@ -20,12 +20,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock2.png",
     category: Categories.BEM_ESTAR,
-    stock: 20,
+    stock: 2,
     created_at: "",
     updated_at: ""
   },
@@ -33,25 +34,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
-    price: 20.0,
-    weight: 20,
-    measure: Measures.GRAM,
-    image_url: "/mock1.png",
-    category: Categories.COSMECEUTICOS,
-    stock: 20,
-    created_at: "",
-    updated_at: ""
-  },
-  {
-    id: "",
-    name: "Product",
-    description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock3.png",
     category: Categories.COSMECEUTICOS,
-    stock: 20,
+    stock: 3,
     created_at: "",
     updated_at: ""
   },
@@ -59,12 +48,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock1.png",
-    category: Categories.DERMATOLOGICOS,
-    stock: 20,
+    category: Categories.COSMECEUTICOS,
+    stock: 4,
     created_at: "",
     updated_at: ""
   },
@@ -72,12 +62,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock2.png",
     category: Categories.DERMATOLOGICOS,
-    stock: 20,
+    stock: 5,
     created_at: "",
     updated_at: ""
   },
@@ -85,12 +76,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Oleum",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock3.png",
-    category: Categories.ESPORTES,
-    stock: 20,
+    category: Categories.DERMATOLOGICOS,
+    stock: 6,
     created_at: "",
     updated_at: ""
   },
@@ -98,12 +90,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Dermosqée",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock1.png",
     category: Categories.ESPORTES,
-    stock: 20,
+    stock: 7,
     created_at: "",
     updated_at: ""
   },
@@ -111,12 +104,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Dermosqée",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock2.png",
-    category: Categories.HIGIENE,
-    stock: 20,
+    category: Categories.ESPORTES,
+    stock: 8,
     created_at: "",
     updated_at: ""
   },
@@ -124,12 +118,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Dermosqée",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock3.png",
     category: Categories.HIGIENE,
-    stock: 20,
+    stock: 9,
     created_at: "",
     updated_at: ""
   },
@@ -137,12 +132,13 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Dermosqée",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
-    image_url: "/mock3.png",
-    category: Categories.SUPLEMENTOS,
-    stock: 20,
+    image_url: "/mock1.png",
+    category: Categories.HIGIENE,
+    stock: 10,
     created_at: "",
     updated_at: ""
   },
@@ -150,24 +146,28 @@ const mockProducts: Product[] = [
     id: "",
     name: "Product",
     description: "Description of Product",
+    line: "Linha Dermosqée",
+    price: 20.0,
+    weight: 20,
+    measure: Measures.GRAM,
+    image_url: "/mock2.png",
+    category: Categories.SUPLEMENTOS,
+    stock: 11,
+    created_at: "",
+    updated_at: ""
+  },
+  {
+    id: "",
+    name: "Product",
+    description: "Description of Product",
+    line: "Linha Dermosqée",
     price: 20.0,
     weight: 20,
     measure: Measures.GRAM,
     image_url: "/mock3.png",
     category: Categories.SUPLEMENTOS,
-    stock: 20,
+    stock: 12,
     created_at: "",
     updated_at: ""
   },
 ]
-
-
-export default function Products() {
-
-
-  return (
-    <VStack>
-      <Text></Text>
-    </VStack>
-  )
-}

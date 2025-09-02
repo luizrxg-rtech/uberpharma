@@ -11,7 +11,7 @@ import {Provider} from "@/providers/provider";
 import Header from "@/components/layout/header/header";
 import Footer from "@/components/layout/footer/footer";
 import CartSidebar from "@/components/layout/cart/cart-sidebar";
-import Scroll from "@/components/layout/scroll/scroll";
+import PageScroll from "@/components/layout/page-scroll/page-scroll";
 import {Box} from "@chakra-ui/react";
 
 const displayFont = DisplayFont({
@@ -62,14 +62,14 @@ export default function RootLayout({
         )}
       >
         <Provider>
-          <Scroll>
+          <PageScroll>
             <CartSidebar />
             <Header/>
             <Box as="main">
               {children}
             </Box>
             <Footer/>
-          </Scroll>
+          </PageScroll>
         </Provider>
       </body>
     </html>

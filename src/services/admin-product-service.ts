@@ -1,6 +1,7 @@
 import { supabase } from '@/utils/supabase'
-import { Product } from '@/types'
+import { Product } from '@/types/product/types'
 import { ImageUploadService } from './image-upload-service'
+import {Category} from "@/types/product/types";
 
 export class AdminProductService {
   static async createProduct(productData: {
@@ -9,7 +10,7 @@ export class AdminProductService {
     description: string
     price: number
     image: string
-    category: string
+    category: Category
     quantity: number
   }): Promise<Product | null> {
     const { data, error } = await supabase
@@ -31,7 +32,7 @@ export class AdminProductService {
     description: string
     price: number
     image: string
-    category: string
+    category: Category
     quantity: number
   }>): Promise<Product | null> {
     const { data, error } = await supabase

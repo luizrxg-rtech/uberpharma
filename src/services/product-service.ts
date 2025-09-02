@@ -1,12 +1,14 @@
 import { supabase } from '@/utils/supabase'
-import { Product } from '@/types'
+import { Product } from '@/types/product/types'
+import {Category} from "@/types/product/types";
+import {mockProducts} from "@/services/mockProdutos";
 
 export class ProductService {
   static async createProduct(productData: {
     name: string
     description: string
     price: number
-    category: string
+    category: Category
     stock: number
     image_url?: string
   }): Promise<Product> {
@@ -39,7 +41,8 @@ export class ProductService {
       throw new Error(`Erro ao buscar produtos: ${error.message}`)
     }
 
-    return data || []
+    // return data || []
+    return mockProducts || []
   }
 
   static async getProductById(id: string): Promise<Product | null> {
@@ -61,7 +64,7 @@ export class ProductService {
     name: string
     description: string
     price: number
-    category: string
+    category: Category
     stock: number
     image_url: string
   }>): Promise<Product> {
@@ -97,7 +100,7 @@ export class ProductService {
     return true
   }
 
-  static async getProductsByCategory(category: string): Promise<Product[]> {
+  static async getProductsByCategory(category: Category): Promise<Product[]> {
     const { data, error } = await supabase
       .from('products')
       .select('*')

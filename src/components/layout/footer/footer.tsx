@@ -14,7 +14,7 @@ export default function Footer() {
       as="footer"
       fontSize="sm"
       color="fg.muted"
-      w="100%"
+      w="full"
     >
       <Box className="footer-line"/>
       <SimpleGrid columns={6} className="w-full max-w-7xl" py={12}>
