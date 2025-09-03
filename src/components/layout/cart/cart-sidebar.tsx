@@ -73,7 +73,7 @@ export default function CartSidebar() {
         }}
       >
         <VStack gap={0} align="stretch" height="full">
-          <HStack justify="space-between" align="center" p={4.5} className="border-b" >
+          <HStack justify="space-between" align="center" p={4.5} >
             <HStack>
               <IconShoppingBag size={20} />
               <Text fontSize="lg" fontWeight="bold">
