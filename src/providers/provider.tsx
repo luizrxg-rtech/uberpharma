@@ -13,6 +13,7 @@ import {RouteChangeHandler} from "@/components/ui/route-change-handler";
 import { CartProvider } from "@/contexts/cart-context"
 import { AuthProvider } from "@/contexts/auth-context"
 import { CartSidebarProvider } from "@/contexts/cart-sidebar-context"
+import { FilterModalProvider } from "@/contexts/filter-modal-context"
 
 export function Provider(props: ColorModeProviderProps) {
   return (
@@ -21,11 +22,13 @@ export function Provider(props: ColorModeProviderProps) {
         <AuthProvider>
           <CartProvider>
             <CartSidebarProvider>
-              <LoadingProvider>
-                {props.children}
-                <Toaster/>
-                <RouteChangeHandler />
-              </LoadingProvider>
+              <FilterModalProvider>
+                <LoadingProvider>
+                  {props.children}
+                  <Toaster/>
+                  <RouteChangeHandler />
+                </LoadingProvider>
+              </FilterModalProvider>
             </CartSidebarProvider>
           </CartProvider>
         </AuthProvider>

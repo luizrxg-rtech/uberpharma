@@ -2,6 +2,7 @@ import {Category} from "@/types/product/types";
 import {Button, HStack} from "@chakra-ui/react";
 import {Categories} from "@/types/product/enums";
 import {IconAdjustmentsHorizontal} from "@tabler/icons-react";
+import {useFilterModal} from "@/contexts/filter-modal-context";
 
 interface FilterProps {
   selectedCategory: Category | null,
@@ -12,6 +13,7 @@ export default function Filter({
   selectedCategory,
   setSelectedCategory
 }: FilterProps) {
+  const { openModal } = useFilterModal();
 
   const isSelected = (category: Category | null) => {
     return selectedCategory === category;
@@ -41,7 +43,7 @@ export default function Filter({
         )
       })}
       <Button
-        onClick={() => {}}
+        onClick={openModal}
         fontWeight="semibold"
         variant="outline"
         ml="auto"
