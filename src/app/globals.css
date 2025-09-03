@@ -130,4 +130,18 @@
     background-color: var(--color-primary);
     color: var(--color-background);
   }
+
+  .animate-progress {
+    animation: progress 10.3s linear;
+  }
+
+  @keyframes progress {
+    from {
+      stroke-dashoffset: 39.269908169872416;
+    }
+
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 }

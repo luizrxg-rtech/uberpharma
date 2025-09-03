@@ -36,41 +36,20 @@ const carouselItems = [
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
-  const [timer, setTimer] = useState(0);
 
   useEffect(() => {
-    const timerInterval = setInterval(() => {
-      setTimer((prev) => {
-        const nextValue = prev + 1;
-        return nextValue >= 5000 ? 0 : nextValue;
-      });
-    }, 1);
-
-    return () => clearInterval(timerInterval);
-  }, []);
-
-  const getTimerValue = (): number => {
-    return timer;
-  };
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, []);
 
   const goToSlide = (e: MouseEvent<HTMLDivElement> , index: number) => {
     e.stopPropagation()
     setCurrentIndex(index);
   };
 
-  const pauseAutoPlay = () => setIsAutoPlaying(false);
-  const resumeAutoPlay = () => setIsAutoPlaying(false);
 
   return (
     <Box
@@ -80,8 +59,7 @@ export default function Carousel() {
       bg="white"
       borderRadius="4xl"
       overflow="hidden"
-      onMouseEnter={pauseAutoPlay}
-      onMouseLeave={resumeAutoPlay}
+      cursor="pointer"
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -131,8 +109,6 @@ export default function Carousel() {
 
           return (
             <Box
-              align="center"
-              justify="center"
               position="relative"
               width="14px"
               height="14px"
@@ -140,11 +116,8 @@ export default function Carousel() {
             >
               {isCurrent &&
                 <CircularProgress
-                  progress={getTimerValue() / 5}
                   size={14}
                   strokeWidth={1.5}
-                  color="white"
-                  className="mr-2"
                 />
               }
               <Circle

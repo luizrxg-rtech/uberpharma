@@ -1,9 +1,16 @@
 import {cn} from "@/utils/strings";
 
-export default function CircularProgress({ progress, size, strokeWidth, className }) {
+interface CircularProgressProps {
+  size: number
+  strokeWidth: number
+}
+
+export default function CircularProgress({
+  size,
+  strokeWidth
+}: CircularProgressProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const offset = circumference - (progress / 100) * circumference;
 
   return (
     <div className="relative inline-flex items-center justify-center">
@@ -30,8 +37,8 @@ export default function CircularProgress({ progress, size, strokeWidth, classNam
           fill="transparent"
           strokeLinecap="round"
           strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          className="stroke-white transition-all duration-300 ease-in-out"
+          data-circumference={circumference}
+          className="stroke-white animate-progress"
         />
       </svg>
     </div>
