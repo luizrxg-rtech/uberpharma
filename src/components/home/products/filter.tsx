@@ -42,15 +42,15 @@ export default function Filter({
           </Button>
         )
       })}
-      <Button
-        onClick={openModal}
-        fontWeight="semibold"
-        variant="outline"
-        ml="auto"
-      >
-        <IconAdjustmentsHorizontal size={16} />
-        Filtro
-      </Button>
+      {/*<Button*/}
+      {/*  onClick={openModal}*/}
+      {/*  fontWeight="semibold"*/}
+      {/*  variant="outline"*/}
+      {/*  ml="auto"*/}
+      {/*>*/}
+      {/*  <IconAdjustmentsHorizontal size={16} />*/}
+      {/*  Filtro*/}
+      {/*</Button>*/}
     </HStack>
   )
 }
