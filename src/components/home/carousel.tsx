@@ -1,6 +1,6 @@
 "use client";
 
-import {Box, Button, HStack, Image, Text, Circle} from "@chakra-ui/react";
+import {Box, Button, Circle, HStack, Image, Text} from "@chakra-ui/react";
 import {AnimatePresence, motion} from "motion/react";
 import {MouseEvent, useEffect, useState} from "react";
 import {IconArrowRight} from "@tabler/icons-react";

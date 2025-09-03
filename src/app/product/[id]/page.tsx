@@ -1,26 +1,13 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from 'react';
-import { Product } from '@/types/product/types';
-import { useCart } from '@/contexts/cart-context';
-import { useCartSidebar } from '@/contexts/cart-sidebar-context';
-import { useRouter } from 'next/navigation';
-import {
-  Container,
-  VStack,
-  HStack,
-  Text,
-  Image,
-  Button,
-  Badge,
-  Grid,
-  GridItem,
-  Box,
-  Spinner
-} from '@chakra-ui/react';
-import { IconShoppingCart, IconArrowLeft } from '@tabler/icons-react';
-import { ProductService } from '@/services/product-service';
+import {useParams, useRouter} from "next/navigation";
+import {useEffect, useState} from 'react';
+import {Product} from '@/types/product/types';
+import {useCart} from '@/contexts/cart-context';
+import {useCartSidebar} from '@/contexts/cart-sidebar-context';
+import {Badge, Box, Button, Container, Grid, GridItem, HStack, Image, Spinner, Text, VStack} from '@chakra-ui/react';
+import {IconArrowLeft, IconShoppingCart} from '@tabler/icons-react';
+import {ProductService} from '@/services/product-service';
 
 export default function ProductPage() {
   const { id } = useParams();

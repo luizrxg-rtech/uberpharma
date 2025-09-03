@@ -1,6 +1,5 @@
-import { Box, Button } from "@chakra-ui/react"
-import { FieldRoot, FieldLabel, FieldHelperText, FieldErrorText, FieldRequiredIndicator } from "@chakra-ui/react/field"
-import { ReactNode } from "react"
+import {Box, Button} from "@chakra-ui/react"
+import {ReactNode} from "react"
 
 export interface SegmentOption {
   label: string

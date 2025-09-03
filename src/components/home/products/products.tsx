@@ -1,7 +1,7 @@
 "use client"
 
 import {VStack} from "@chakra-ui/react";
-import Row from "./row";
+import Row from "./row/row";
 import Filter from "./filter";
 import {useEffect, useState} from "react";
 import {Category, Product} from "@/types/product/types";
@@ -14,10 +14,10 @@ const PRODUCTS_PER_ROW = 6;
 export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[] | undefined>(undefined);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
-  const lines = [CUSTOM_LINE, ...Array.from(new Set(products.map(product => product.line)))];
+  const lines = [CUSTOM_LINE, ...Array.from(new Set(products?.map(product => product.line)))];
 
   const fetchProducts = async () => {
     try {
@@ -39,6 +39,10 @@ export default function Products() {
     fetchProducts();
   }, []);
 
+  if (error) {
+    return null
+  }
+
   return (
     <VStack
       w="full"
@@ -49,16 +53,16 @@ export default function Products() {
         setSelectedCategory={setSelectedCategory}
       />
       {lines.map((line, index) => {
-        const lineProducts: Product[] = products;
+        const lineProducts = products;
 
         if (line === CUSTOM_LINE) {
-          lineProducts.sort((a, b) => a.stock > b.stock ? 1 : -1)
+          lineProducts?.sort((a, b) => a.stock > b.stock ? 1 : -1)
         } else {
-          lineProducts.filter(product => product.line === line)
+          lineProducts?.filter(product => product.line === line)
         }
 
         const processedProducts = lineProducts
-          .filter(product => selectedCategory === null || product.category === selectedCategory)
+          ?.filter(product => selectedCategory === null || product.category === selectedCategory)
           .slice(0, PRODUCTS_PER_ROW);
 
         return (
@@ -66,6 +70,7 @@ export default function Products() {
             key={index}
             line={line}
             products={processedProducts}
+            loading={loading}
           />
         )
       })}

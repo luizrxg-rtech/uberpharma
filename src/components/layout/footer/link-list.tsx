@@ -1,5 +1,5 @@
-import {VStack, Text, Link} from "@chakra-ui/react";
-import { LinkWithName } from "@/types/misc/types";
+import {Link, Text, VStack} from "@chakra-ui/react";
+import {LinkWithName} from "@/types/misc/types";
 
 interface LinkListProps {
   title: string,

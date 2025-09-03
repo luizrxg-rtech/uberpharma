@@ -1,19 +1,10 @@
 'use client';
 
 import {FormEvent, useState} from 'react';
-import { useAuth } from '@/contexts/auth-context';
-import { useRouter } from 'next/navigation';
-import {
-  Container,
-  VStack,
-  HStack,
-  Text,
-  Input,
-  Button,
-  Box,
-  Tabs
-} from '@chakra-ui/react';
-import { IconArrowLeft } from '@tabler/icons-react';
+import {useAuth} from '@/contexts/auth-context';
+import {useRouter} from 'next/navigation';
+import {Box, Button, Container, HStack, Input, Tabs, Text, VStack} from '@chakra-ui/react';
+import {IconArrowLeft} from '@tabler/icons-react';
 
 export default function LoginPage() {
   const { login, register, isAuthenticated } = useAuth();

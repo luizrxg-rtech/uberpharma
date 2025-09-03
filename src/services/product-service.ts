@@ -1,6 +1,5 @@
-import { supabase } from '@/utils/supabase'
-import { Product } from '@/types/product/types'
-import {Category} from "@/types/product/types";
+import {supabase} from '@/utils/supabase'
+import {Category, Product} from '@/types/product/types'
 
 export class ProductService {
   static async createProduct(productData: {

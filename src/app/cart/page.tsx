@@ -1,19 +1,9 @@
 'use client';
 
-import { useCart } from '@/contexts/cart-context';
-import { useRouter } from 'next/navigation';
-import {
-  Container,
-  VStack,
-  HStack,
-  Text,
-  Image,
-  Button,
-  Box,
-  Flex,
-  Spacer
-} from '@chakra-ui/react';
-import { IconTrash, IconShoppingBag, IconArrowLeft } from '@tabler/icons-react';
+import {useCart} from '@/contexts/cart-context';
+import {useRouter} from 'next/navigation';
+import {Box, Button, Container, Flex, HStack, Image, Spacer, Text, VStack} from '@chakra-ui/react';
+import {IconArrowLeft, IconShoppingBag, IconTrash} from '@tabler/icons-react';
 
 export default function CartPage() {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();

@@ -2,11 +2,7 @@ import {Box, SimpleGrid, VStack} from "@chakra-ui/react";
 import Info from "./info";
 import LinkList from "./link-list";
 import Baseline from "./baseline";
-import {
-  linksProdutos,
-  linksEmpresa,
-  linksAjuda
-} from './links'
+import {linksAjuda, linksEmpresa, linksProdutos} from './links'
 
 export default function Footer() {
   return (

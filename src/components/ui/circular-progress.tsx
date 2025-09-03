@@ -1,5 +1,3 @@
-import {cn} from "@/utils/strings";
-
 interface CircularProgressProps {
   size: number
   strokeWidth: number

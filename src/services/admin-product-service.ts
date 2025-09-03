@@ -1,7 +1,6 @@
-import { supabase } from '@/utils/supabase'
-import { Product } from '@/types/product/types'
-import { ImageUploadService } from './image-upload-service'
-import {Category} from "@/types/product/types";
+import {supabase} from '@/utils/supabase'
+import {Category, Product} from '@/types/product/types'
+import {ImageUploadService} from './image-upload-service'
 
 export class AdminProductService {
   static async createProduct(productData: {

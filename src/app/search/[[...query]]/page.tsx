@@ -1,12 +1,12 @@
 'use client';
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from 'react';
-import { Product } from '@/types/product/types';
-import { ProductCard } from '@/components/ui/product-card';
-import { SegmentedControl, SegmentOption } from '@/components/ui/segmented-control';
-import { Container, SimpleGrid, Text, VStack, Spinner } from '@chakra-ui/react';
-import { ProductService } from '@/services/product-service';
+import {useParams} from "next/navigation";
+import {useEffect, useState} from 'react';
+import {Product} from '@/types/product/types';
+import {ProductCard} from '@/components/ui/product-card';
+import {SegmentedControl, SegmentOption} from '@/components/ui/segmented-control';
+import {Container, SimpleGrid, Spinner, Text, VStack} from '@chakra-ui/react';
+import {ProductService} from '@/services/product-service';
 
 export default function SearchPage() {
   const params = useParams();
@@ -84,17 +84,6 @@ export default function SearchPage() {
     }))
   ];
 
-  if (loading) {
-    return (
-      <Container maxW="7xl" py={8}>
-        <VStack gap={8} align="center" minH="400px" justify="center">
-          <Spinner size="xl" />
-          <Text>Carregando produtos...</Text>
-        </VStack>
-      </Container>
-    );
-  }
-
   if (error) {
     return (
       <Container maxW="7xl" py={8}>
@@ -148,7 +137,11 @@ export default function SearchPage() {
         ) : (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={6}>
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                loading={loading}
+                key={product.id}
+                product={product}
+              />
             ))}
           </SimpleGrid>
         )}

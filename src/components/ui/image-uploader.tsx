@@ -1,8 +1,8 @@
 'use client'
 
-import {useState, useRef, useCallback, ChangeEvent, MouseEvent} from 'react'
-import { ImageUploadService } from '@/services/image-upload-service'
-import { ImageUploadResult } from '@/types/misc/types'
+import {ChangeEvent, MouseEvent, useCallback, useRef, useState} from 'react'
+import {ImageUploadService} from '@/services/image-upload-service'
+import {ImageUploadResult} from '@/types/misc/types'
 
 interface ImageUploaderProps {
   onImageUploaded: (result: ImageUploadResult | null) => void

@@ -1,5 +1,5 @@
-import { supabase } from '@/utils/supabase'
-import { ImageUploadResult } from '@/types/misc/types'
+import {supabase} from '@/utils/supabase'
+import {ImageUploadResult} from '@/types/misc/types'
 
 export class ImageUploadService {
   private static readonly BUCKET_NAME = 'product-images'
