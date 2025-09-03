@@ -29,7 +29,7 @@ export default function CategoriesGrid() {
               className="pointer-events-none"
             >
               <Image
-                src={"/ilustracao-" + category + ".png"}
+                src={"/ilustracoes/ilustracao-" + category + ".png"}
                 alt={"Ilustração da categoria " + category}
                 width={500}
                 height={500}

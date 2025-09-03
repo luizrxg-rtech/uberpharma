@@ -23,12 +23,6 @@ export const ProfileButton = () => {
       <Button
         variant="subtle"
         onClick={handleLogin}
-        bg="bg.muted"
-        color="fg"
-        borderRadius="full"
-        _hover={{
-          bg: "bg.emphasized"
-        }}
       >
         <IconUserCircle size={16} />
         Entrar
@@ -42,12 +36,6 @@ export const ProfileButton = () => {
         <HStack gap={2}>
           <Button
             variant="subtle"
-            bg="bg.muted"
-            color="fg"
-            borderRadius="full"
-            _hover={{
-              bg: "bg.emphasized"
-            }}
           >
             <IconUserCircle size={16} />
             Minha conta

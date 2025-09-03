@@ -9,27 +9,27 @@ import CircularProgress from "@/components/ui/circular-progress"
 const carouselItems = [
   {
     id: 1,
-    image: "/banner-spray-azul.jpg",
+    image: "/banners/banner-spray-azul.jpg",
     alt: "Linha Oleum"
   },
   {
     id: 2,
-    image: "/banner-spray-azul.jpg",
+    image: "/banners/banner-spray-azul.jpg",
     alt: "Linha Oleum"
   },
   {
     id: 3,
-    image: "/banner-spray-azul.jpg",
+    image: "/banners/banner-spray-azul.jpg",
     alt: "Linha Oleum"
   },
   {
     id: 4,
-    image: "/banner-spray-azul.jpg",
+    image: "/banners/banner-spray-azul.jpg",
     alt: "Linha Oleum"
   },
   {
     id: 5,
-    image: "/banner-spray-azul.jpg",
+    image: "/banners/banner-spray-azul.jpg",
     alt: "Linha Oleum"
   },
 ];
@@ -149,7 +149,6 @@ export default function Carousel() {
       >
         <Text
           fontSize="md"
-          lineHeight="1.2"
         >
           Quero conhecer
         </Text>

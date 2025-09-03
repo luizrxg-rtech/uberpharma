@@ -5,12 +5,11 @@ import Banner from "./banner";
 export default function Advertising() {
 
   return (
-    <VStack gap={6} py={44}>
+    <VStack gap={6}>
       <Text
         color="fg"
         fontSize="6xl"
         fontWeight="bold"
-        lineHeight="1.2"
         pb={10}
       >
         Tudo que você precisa está aqui

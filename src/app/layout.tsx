@@ -39,11 +39,11 @@ export const metadata: Metadata = {
     "Na Uberpharma, cuidamos da sua saúde com inovação e confiança.",
   icons: {
     icon: {
-      url: "/favicon.ico",
+      url: "/favicon/favicon.ico",
       sizes: "any",
     },
-    shortcut: "/favicon.ico",
-    apple: "/favicon.png",
+    shortcut: "/favicon/favicon.ico",
+    apple: "/favicon/favicon.png",
   },
 };
 

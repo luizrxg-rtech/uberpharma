@@ -11,15 +11,29 @@ export default function Footer() {
       fontSize="sm"
       color="fg.muted"
       w="full"
+      mt={44}
     >
-      <Box className="footer-line"/>
-      <SimpleGrid columns={6} className="w-full max-w-7xl" py={12}>
-        <Info/>
-        <LinkList title="Produtos" links={linksProdutos}/>
-        <LinkList title="Empresa" links={linksEmpresa}/>
-        <LinkList title="Ajuda" links={linksAjuda}/>
+      <Box className="footer-line" />
+      <SimpleGrid
+        columns={6}
+        className="w-full max-w-7xl"
+        py={12}
+      >
+        <Info />
+        <LinkList
+          title="Produtos"
+          links={linksProdutos}
+        />
+        <LinkList
+          title="Empresa"
+          links={linksEmpresa}
+        />
+        <LinkList
+          title="Ajuda"
+          links={linksAjuda}
+        />
       </SimpleGrid>
-      <Baseline/>
+      <Baseline />
     </VStack>
   );
 }

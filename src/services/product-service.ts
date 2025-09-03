@@ -2,14 +2,8 @@ import {supabase} from '@/utils/supabase'
 import {Category, Product} from '@/types/product/types'
 
 export class ProductService {
-  static async createProduct(productData: {
-    name: string
-    description: string
-    price: number
-    category: Category
-    stock: number
-    image_url?: string
-  }): Promise<Product> {
+  static async createProduct(productData: Product
+  ): Promise<Product> {
     const { data, error } = await supabase
       .from('products')
       .insert({

@@ -46,7 +46,8 @@ export default function Products() {
   return (
     <VStack
       w="full"
-      pt={44} gap={10}
+      py={44}
+      gap={10}
     >
       <Filter
         selectedCategory={selectedCategory}

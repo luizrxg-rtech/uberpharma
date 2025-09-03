@@ -72,7 +72,7 @@ const config = defineConfig({
           800: { value: "#c62828" },
           900: { value: "#b71c1c" },
           950: { value: "#8b1538" }
-        },
+        }
       }
     },
 
@@ -107,6 +107,58 @@ const config = defineConfig({
           "subtle": {
             value: { base: "gray.50", _dark: "gray.800" }
           }
+        }
+      }
+    },
+
+    recipes: {
+      button: {
+        base: {
+          fontWeight: "medium",
+          borderRadius: "full"
+        },
+        variants: {
+          variant: {
+            solid: {
+              bg: "brand.500",
+              color: "white",
+              _hover: {
+                bg: "brand.600"
+              },
+              _active: {
+                bg: "brand.700"
+              }
+            },
+            outline: {
+              borderRadius: "full",
+              color: "fg",
+              borderColor: "bg.muted",
+              _hover: {
+                bg: "bg.muted"
+              }
+            },
+            subtle: {
+              bg: "bg.muted",
+              color: "fg",
+              borderRadius: "full",
+              _hover: {
+                bg: "bg.emphasized"
+              }
+            }
+          }
+        }
+      },
+
+      input: {
+        base: {
+          borderRadius: "full",
+          fontWeight: "semibold"
+        }
+      },
+
+      text: {
+        base: {
+          lineHeight: 1.2
         }
       }
     }

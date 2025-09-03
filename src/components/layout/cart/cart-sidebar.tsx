@@ -6,10 +6,11 @@ import {useEffect, useState} from 'react';
 import {Box, Button, Flex, HStack, IconButton, Image, Text, VStack} from '@chakra-ui/react';
 import {IconShoppingBag, IconShoppingBagX, IconTrash, IconX} from '@tabler/icons-react';
 import {useCartSidebar} from "@/contexts/cart-sidebar-context";
+import QuantityInput from "@/components/ui/quantity-input";
 
 export default function CartSidebar() {
-  const { items, total, updateQuantity, removeItem } = useCart();
-  const { isOpen, closeSidebar } = useCartSidebar();
+  const {items, total, updateQuantity, removeItem} = useCart();
+  const {isOpen, closeSidebar} = useCartSidebar();
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -24,8 +25,12 @@ export default function CartSidebar() {
     }
   }, [isOpen]);
 
-  const handleQuantityChange = (id: string, quantity: number) => {
-    updateQuantity(id, quantity);
+  const handleQuantityChange = (id: string, quantity: string | number) => {
+    let newQuantity = quantity;
+    if (typeof quantity === "string") {
+      newQuantity = parseInt(quantity) || 1;
+    }
+    updateQuantity(id, newQuantity as number);
   };
 
   const handleRemoveItem = (id: string) => {
@@ -66,17 +71,28 @@ export default function CartSidebar() {
         bg="background"
         className="border-l"
         zIndex={1000}
-        overflowY="auto"
+        overflow="hidden"
         style={{
           transform: isAnimating ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
-        <VStack gap={0} align="stretch" height="full">
-          <HStack justify="space-between" align="center" p={4.5} >
+        <VStack
+          gap={0}
+          align="stretch"
+          height="full"
+        >
+          <HStack
+            justify="space-between"
+            align="center"
+            p={4.5}
+          >
             <HStack>
               <IconShoppingBag size={20} />
-              <Text fontSize="lg" fontWeight="bold">
+              <Text
+                fontSize="lg"
+                fontWeight="bold"
+              >
                 Sacola
               </Text>
             </HStack>
@@ -96,94 +112,130 @@ export default function CartSidebar() {
             </IconButton>
           </HStack>
 
-          <Flex flex={1} direction="column">
+          <Flex
+            flex={1}
+            direction="column"
+          >
             {items.length === 0 ? (
-              <VStack gap={4} justify="center" flex={1} p={6}>
-                <IconShoppingBagX size={48} color="gray" />
-                <Text fontSize="lg" fontWeight="medium" textAlign="center">
+              <VStack
+                gap={4}
+                justify="center"
+                flex={1}
+              >
+                <IconShoppingBagX
+                  size={48}
+                  color="gray"
+                />
+                <Text
+                  fontSize="lg"
+                  fontWeight="medium"
+                  textAlign="center"
+                >
                   Sua sacola está vazia
                 </Text>
-                <Text fontSize="sm" color="muted.foreground" textAlign="center">
+                <Text
+                  fontSize="sm"
+                  color="fg.muted"
+                  textAlign="center"
+                >
                   Adicione alguns produtos para continuar
                 </Text>
               </VStack>
             ) : (
-              <VStack gap={0} align="stretch" flex={1}>
-                <Box flex={1} overflowY="auto" p={4}>
-                  <VStack gap={4} align="stretch">
+              <VStack
+                gap={0}
+                align="stretch"
+                flex={1}
+              >
+                <Box
+                  flex={1}
+                  overflowY="auto"
+                  p={4}
+                >
+                  <VStack
+                    gap={8}
+                    align="stretch"
+                  >
                     {items.map((item, index) => (
-                      <Box
+                      <HStack
                         key={item.id}
-                        bg="card"
-                        p={3}
-                        borderRadius="md"
-                        className="border"
-                        
+                        pb={8}
+                        gap={3}
+                        align="stretch"
+                        className={index === items.length - 1 ? "" : "border-b"}
                         style={{
                           opacity: isAnimating ? 1 : 0,
                           transform: isAnimating ? 'translateY(0)' : 'translateY(20px)',
                           transition: `opacity 300ms ease-in-out ${index * 50}ms, transform 300ms ease-in-out ${index * 50}ms`
                         }}
                       >
-                        <HStack gap={3} align="start">
-                          <Image
-                            src={item.product.image_url}
-                            alt={item.product.name}
-                            boxSize="60px"
-                            objectFit="cover"
-                            borderRadius="md"
-                            loading="lazy"
-                          />
-
-                          <VStack flex={1} gap={1} align="stretch">
-                            <Text fontWeight="medium" fontSize="sm" lineClamp={2}>
-                              {item.product.name}
-                            </Text>
-                            <Text fontSize="xs" color="muted.foreground">
-                              {item.product.category}
-                            </Text>
-                            <Text fontWeight="bold" color="primary.600" fontSize="sm">
-                              R$ {item.product.price.toFixed(2)}
-                            </Text>
-                          </VStack>
-
-                          <VStack gap={2} align="end" minW="80px">
-                            <HStack gap={1}>
-                              <Button
-                                size="xs"
-                                variant="outline"
-                                onClick={() => handleQuantityChange(item.id, Math.max(1, item.quantity - 1))}
-                                disabled={item.quantity <= 1}
+                        <Image
+                          src={item.product.image_url}
+                          alt={item.product.name}
+                          boxSize="90px"
+                          objectFit="cover"
+                          borderRadius="md"
+                          loading="lazy"
+                        />
+                        <VStack
+                          align="start"
+                          justify="space-between"
+                          h="full"
+                        >
+                          <HStack
+                            align="start"
+                            justify="space-between"
+                          >
+                            <VStack
+                              align="start"
+                            >
+                              <Text
+                                fontWeight="medium"
+                                fontSize="sm"
+                                lineClamp={2}
                               >
-                                -
-                              </Button>
-                              <Text fontSize="sm" minW="20px" textAlign="center">
-                                {item.quantity}
+                                {item.product.name}
                               </Text>
-                              <Button
-                                size="xs"
-                                variant="outline"
-                                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                              <Text
+                                fontWeight="medium"
+                                color="fg.muted"
+                                fontSize="xs"
+                                lineClamp={1}
                               >
-                                +
-                              </Button>
-                            </HStack>
-
-                            <Button
-                              size="xs"
-                              variant="ghost"
-                              colorScheme="red"
+                                {item.product.category}
+                              </Text>
+                            </VStack>
+                            <IconButton
+                              variant="plain"
+                              p={0}
+                              h={6}
+                              w={6}
+                              color="fg"
+                              title="Remover item"
                               onClick={() => handleRemoveItem(item.id)}
                             >
-                              <IconTrash size={14} />
-                            </Button>
-
-                            <Text fontWeight="bold" fontSize="sm">
+                              <IconTrash size={6} />
+                            </IconButton>
+                          </HStack>
+                          <HStack
+                            align="end"
+                            justify="space-between"
+                            w="full"
+                          >
+                            <Text
+                              fontWeight="bold"
+                              fontSize="sm"
+                            >
                               R$ {(item.product.price * item.quantity).toFixed(2)}
                             </Text>
-                          </VStack>
-                        </HStack>
-                      </Box>
+                            <QuantityInput
+                              item={item}
+                              handleQuantityChange={handleQuantityChange}
+                              handleRemoveItem={handleRemoveItem}
+                            />
+                          </HStack>
+                        </VStack>
+                      </HStack>
                     ))}
                   </VStack>
                 </Box>
@@ -191,7 +243,6 @@ export default function CartSidebar() {
                 <Box
                   p={4}
                   className="border-t"
-                  
                   bg="card"
                   style={{
                     opacity: isAnimating ? 1 : 0,
@@ -199,10 +250,20 @@ export default function CartSidebar() {
                     transition: 'opacity 300ms ease-in-out 200ms, transform 300ms ease-in-out 200ms'
                   }}
                 >
-                  <VStack gap={4} align="stretch">
+                  <VStack
+                    gap={4}
+                    align="stretch"
+                  >
                     <HStack justify="space-between">
-                      <Text fontSize="lg" fontWeight="bold">Total:</Text>
-                      <Text fontSize="lg" fontWeight="bold" color="primary.600">
+                      <Text
+                        fontSize="lg"
+                        fontWeight="bold"
+                      >Total:</Text>
+                      <Text
+                        fontSize="lg"
+                        fontWeight="bold"
+                        color="primary.600"
+                      >
                         R$ {total.toFixed(2)}
                       </Text>
                     </HStack>
@@ -213,7 +274,7 @@ export default function CartSidebar() {
                       w="full"
                       onClick={handleCheckout}
                     >
-                      Finalizar Compra
+                      Finalizar compra
                     </Button>
                   </VStack>
                 </Box>

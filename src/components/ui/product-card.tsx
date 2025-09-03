@@ -55,7 +55,7 @@ export function ProductCard({
       maxW="193px"
       align="stretch"
       position="relative"
-      gap={2}
+      gap={0}
     >
       <Box
         position="absolute"
@@ -75,7 +75,7 @@ export function ProductCard({
         </Text>
       </Box>
       <Image
-        src={product?.image_url || '/mock1.png'}
+        src={product?.image_url || '/mocks/mock1.png'}
         alt={product?.name || ""}
         width={193}
         height={193}
@@ -86,9 +86,9 @@ export function ProductCard({
       <Text
         fontSize="sm"
         fontWeight="medium"
-        lineHeight="1.2"
         lineClamp="2"
-        mt={2}
+        lineHeight="1.4"
+        mt={4}
       >
         {product?.name}
       </Text>
@@ -96,11 +96,12 @@ export function ProductCard({
       <VStack
         align="start"
         gap={2}
+        mt={5}
       >
         <Text
           fontSize="md"
           fontWeight="bold"
-          lineHeight="1.2"
+
         >
           R$ {product?.price.toFixed(2)}
         </Text>
@@ -110,7 +111,6 @@ export function ProductCard({
             fontSize="xs"
             fontWeight="semibold"
             color="green"
-            lineHeight="1.2"
           >
             10% OFF no PIX
           </Text>

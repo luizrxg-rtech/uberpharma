@@ -101,6 +101,14 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   a {
@@ -115,7 +123,7 @@
 
   .footer-line {
     width: 100%;
-    background-image: url("/footer-line.svg");
+    background-image: url("/assets/footer-line.svg");
     background-repeat: repeat-x;
     background-position: center;
     min-height: 15px;

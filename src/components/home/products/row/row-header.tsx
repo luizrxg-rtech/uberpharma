@@ -37,7 +37,6 @@ export default function RowHeader({
       <Text
         fontWeight="bold"
         fontSize="2xl"
-        lineHeight="1.2"
       >
         {line}
       </Text>

@@ -19,7 +19,7 @@ export default function Banner() {
         gap={4}
         pt="100px"
       >
-        <Text color="fg" fontSize="6xl" fontWeight="bold" lineHeight="1.2">
+        <Text color="fg" fontSize="6xl" fontWeight="bold">
           Aqui você é o foco
         </Text>
         <Text color="fg.muted" fontSize="lg" textAlign="center">
@@ -27,7 +27,7 @@ export default function Banner() {
         </Text>
       </VStack>
       <Image
-        src="/banner-advertising.png"
+        src="/banners/banner-advertising.png"
         alt="Banner mostrando produtos e atendente"
         width={2552}
         height={1666}

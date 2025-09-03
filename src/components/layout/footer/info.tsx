@@ -11,14 +11,14 @@ export default function Info() {
       gap={8}
     >
       <Image
-        src="/logo.png"
+        src="/logos/logo.png"
         alt="Logo"
         width={781}
         height={184}
         className="cursor-pointer h-10 w-auto"
         loading="lazy"
       />
-      <Text>
+      <Text lineHeight="1.4">
         Fundada em 2008, a UberPharma oferece produtos farmacêuticos que
         promovem saúde e bem-estar. Combinamos tecnologia e ingredientes
         naturais para criar soluções de qualidade nas áreas estética, nutricional e
@@ -43,7 +43,7 @@ export default function Info() {
           size={40}
         />
       </HStack>
-      <Text>
+      <Text lineHeight="1.4">
         Estrada Municipal Thereza Thomazella,  432, Distrito Industrial Pires, Minas Gerais - MG CEP 37642-564. <br/>
         CNPJ: 58.342.281/0001-40
       </Text>

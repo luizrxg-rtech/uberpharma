@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react'
 import Image from 'next/image'
 import ImageUploader from '@/components/ui/image-uploader'
 import {ProductService} from '@/services/product-service'
-import {Measure, Product} from "@/types/product/types";
+import {Category, Measure, Product} from "@/types/product/types";
 import {ImageUploadResult} from "@/types/misc/types";
 import {Categories, Measures} from "@/types/product/enums";
 
@@ -45,8 +45,8 @@ export default function AdminPage() {
     line: '',
     price: '',
     weight: '',
-    measure: '' as Measure | '',
-    category: '',
+    measure: '' as Measure,
+    category: '' as Category,
     stock: ''
   })
 
@@ -57,7 +57,7 @@ export default function AdminPage() {
   const loadProducts = async () => {
     try {
       const productsData = await ProductService.getAllProducts()
-      setProducts(productsData.map(p => ({ ...p, isEditing: false })))
+      setProducts(productsData.map(p => ({...p, isEditing: false})))
     } catch (error) {
       console.error('Erro ao carregar produtos:', error)
       alert('Erro ao carregar produtos')
@@ -99,16 +99,19 @@ export default function AdminPage() {
     setIsLoading(true)
 
     try {
-      const productData = {
+      const productData: Product = {
+        id: "",
         name: formData.name,
         description: formData.description,
         line: formData.line,
         price: parseFloat(formData.price),
         weight: parseFloat(formData.weight),
         measure: formData.measure as Measure,
-        category: formData.category,
+        category: formData.category as Category,
         stock: parseInt(formData.stock) || 0,
-        image_url: imageResult?.url || ''
+        image_url: imageResult?.url || '',
+        created_at: "",
+        updated_at: ""
       }
 
       await ProductService.createProduct(productData)
@@ -147,8 +150,8 @@ export default function AdminPage() {
       line: '',
       price: '',
       weight: '',
-      measure: '' as Measure | '',
-      category: '',
+      measure: '' as Measure,
+      category: '' as Category,
       stock: ''
     })
   }
@@ -184,8 +187,8 @@ export default function AdminPage() {
         line: '',
         price: '',
         weight: '',
-        measure: '' as Measure | '',
-        category: '',
+        measure: '' as Measure,
+        category: '' as Category,
         stock: ''
       })
       await loadProducts()
@@ -239,7 +242,7 @@ export default function AdminPage() {
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Digite o nome do produto"
             />
@@ -251,7 +254,7 @@ export default function AdminPage() {
             </label>
             <textarea
               value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Descrição do produto"
@@ -265,7 +268,7 @@ export default function AdminPage() {
             <input
               type="text"
               value={formData.line}
-              onChange={(e) => setFormData(prev => ({ ...prev, line: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({...prev, line: e.target.value}))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Digite o nome do produto"
             />
@@ -280,7 +283,7 @@ export default function AdminPage() {
                 type="number"
                 step="0.01"
                 value={formData.price}
-                onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({...prev, price: e.target.value}))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0.00"
               />
@@ -293,7 +296,7 @@ export default function AdminPage() {
               <input
                 type="number"
                 value={formData.stock}
-                onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({...prev, stock: e.target.value}))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0"
               />
@@ -306,7 +309,7 @@ export default function AdminPage() {
             </label>
             <select
               value={formData.category}
-              onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({...prev, category: e.target.value}))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Selecione uma categoria</option>
@@ -331,7 +334,7 @@ export default function AdminPage() {
               type="number"
               step="0.01"
               value={formData.weight}
-              onChange={(e) => setFormData(prev => ({ ...prev, weight: e.target.value }))}
+              onChange={(e) => setFormData(prev => ({...prev, weight: e.target.value}))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Digite o peso do produto"
             />
@@ -343,7 +346,7 @@ export default function AdminPage() {
             </label>
             <select
               value={formData.measure}
-              onChange={(e) => setFormData(prev => ({ ...prev, measure: e.target.value as Measure }))}
+              onChange={(e) => setFormData(prev => ({...prev, measure: e.target.value as Measure}))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Selecione a medida</option>
@@ -425,7 +428,10 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {products.map((product) => (
-                  <tr key={product.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <tr
+                    key={product.id}
+                    className="border-b border-gray-100 hover:bg-gray-50"
+                  >
                     <td className="py-3 px-4">
                       {product.image_url ? (
                         <div className="w-12 h-12 relative">
@@ -449,7 +455,7 @@ export default function AdminPage() {
                         <input
                           type="text"
                           value={editFormData.name || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, name: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, name: e.target.value}))}
                           className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       ) : (
@@ -468,7 +474,7 @@ export default function AdminPage() {
                         <input
                           type="text"
                           value={editFormData.line || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, line: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, line: e.target.value}))}
                           className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       ) : (
@@ -486,11 +492,14 @@ export default function AdminPage() {
                       {editingProductId === product.id ? (
                         <select
                           value={editFormData.category || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, category: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, category: e.target.value as Category}))}
                           className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
                           {Object.values(Categories).map((cat) => (
-                            <option key={cat} value={cat}>{cat}</option>
+                            <option
+                              key={cat}
+                              value={cat}
+                            >{cat}</option>
                           ))}
                         </select>
                       ) : (
@@ -505,7 +514,7 @@ export default function AdminPage() {
                           type="number"
                           step="0.01"
                           value={editFormData.price || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, price: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, price: e.target.value}))}
                           className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       ) : (
@@ -519,17 +528,19 @@ export default function AdminPage() {
                         <input
                           type="number"
                           value={editFormData.stock || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, stock: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, stock: e.target.value}))}
                           className="w-16 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       ) : (
-                        <span className={`inline-block px-2 py-1 rounded text-xs ${
-                          product.stock > 10 
-                            ? 'bg-green-100 text-green-800'
-                            : product.stock > 0 
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
+                        <span
+                          className={`inline-block px-2 py-1 rounded text-xs ${
+                            product.stock > 10
+                              ? 'bg-green-100 text-green-800'
+                              : product.stock > 0
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-red-100 text-red-800'
+                          }`}
+                        >
                           {product.stock} unidades
                         </span>
                       )}
@@ -540,7 +551,7 @@ export default function AdminPage() {
                           type="number"
                           step="0.01"
                           value={editFormData.weight || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, weight: e.target.value }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, weight: e.target.value}))}
                           className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       ) : (
@@ -553,7 +564,7 @@ export default function AdminPage() {
                       {editingProductId === product.id ? (
                         <select
                           value={editFormData.measure || ''}
-                          onChange={(e) => setEditFormData(prev => ({ ...prev, measure: e.target.value as Measure }))}
+                          onChange={(e) => setEditFormData(prev => ({...prev, measure: e.target.value as Measure}))}
                           className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
                           {Object.values(Measures).map((measure, index) => {

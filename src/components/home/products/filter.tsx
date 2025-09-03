@@ -23,13 +23,8 @@ export default function Filter({
     >
       <Button
         onClick={() => setSelectedCategory(null)}
-        rounded="full"
-        bg={isSelected(null) ? "" : "bg.muted"}
-        color={isSelected(null) ? "" : "fg"}
+        variant={isSelected(null) ? "solid" : "subtle"}
         fontWeight="semibold"
-        _hover={{
-          bg: isSelected(null) ? "" : "bg.emphasized"
-        }}
       >
         Ver todos
       </Button>
@@ -38,13 +33,8 @@ export default function Filter({
           <Button
             key={index}
             onClick={() => setSelectedCategory(category)}
-            rounded="full"
-            bg={isSelected(category) ? "" : "bg.muted"}
-            color={isSelected(category) ? "" : "fg"}
+            variant={isSelected(category) ? "solid" : "subtle"}
             fontWeight="semibold"
-            _hover={{
-              bg: isSelected(category) ? "" : "bg.emphasized"
-            }}
           >
             {category}
           </Button>
@@ -52,14 +42,8 @@ export default function Filter({
       })}
       <Button
         onClick={() => {}}
-        rounded="full"
         fontWeight="semibold"
-        color="fg"
-        borderColor="bg.muted"
         variant="outline"
-        _hover={{
-          bg: "bg.muted"
-        }}
         ml="auto"
       >
         <IconAdjustmentsHorizontal size={16} />

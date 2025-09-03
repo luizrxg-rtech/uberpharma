@@ -9,11 +9,10 @@ import {ProfileButton} from "@/components/layout/header/profile-button";
 import {useCart} from "@/contexts/cart-context";
 import {useCartSidebar} from "@/contexts/cart-sidebar-context";
 import {Badge, HStack, IconButton, VStack} from "@chakra-ui/react";
+import CartButton from "@/components/layout/header/cart-button";
 
 export default function Header() {
   const router = useRouter();
-  const { itemCount } = useCart();
-  const { toggleSidebar } = useCartSidebar();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
@@ -45,7 +44,7 @@ export default function Header() {
         className="w-full max-w-7xl"
       >
         <Image
-          src="/logo.png"
+          src="/logos/logo.png"
           alt="Logo"
           width={781}
           height={184}
@@ -63,33 +62,7 @@ export default function Header() {
           variant="subtle"
         />
         <HStack gap={4}>
-          <IconButton
-            variant="subtle"
-            onClick={toggleSidebar}
-            position="relative"
-            bg="bg.muted"
-            color="fg"
-            borderRadius="full"
-            _hover={{
-              bg: "bg.emphasized"
-            }}
-            p={2}
-          >
-            <IconShoppingBag size={20}/>
-            {itemCount > 0 && (
-              <Badge
-                position="absolute"
-                top="-1"
-                right="-1"
-                colorScheme="primary"
-                borderRadius="full"
-                minW="20px"
-                h="20px"
-              >
-                {itemCount}
-              </Badge>
-            )}
-          </IconButton>
+          <CartButton />
           <ProfileButton/>
         </HStack>
       </HStack>

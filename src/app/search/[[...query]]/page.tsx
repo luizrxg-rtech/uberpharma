@@ -101,7 +101,7 @@ export default function SearchPage() {
           <Text fontSize="3xl" fontWeight="bold" textAlign="center">
             {getPageTitle()}
           </Text>
-          <Text fontSize="lg" color="muted.foreground" textAlign="center">
+          <Text fontSize="lg" color="fg.muted" textAlign="center">
             {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''} {isSearchRoute ? 'encontrado' : 'disponível'}{filteredProducts.length !== 1 ? (isSearchRoute ? 's' : 'eis') : ''}
           </Text>
         </VStack>
@@ -127,10 +127,10 @@ export default function SearchPage() {
 
         {filteredProducts.length === 0 ? (
           <VStack gap={4} py={12}>
-            <Text fontSize="lg" textAlign="center" color="muted.foreground">
+            <Text fontSize="lg" textAlign="center" color="fg.muted">
               {getEmptyStateMessage()}
             </Text>
-            <Text textAlign="center" color="muted.foreground">
+            <Text textAlign="center" color="fg.muted">
               Tente buscar com outras palavras-chave ou navegue por nossas categorias
             </Text>
           </VStack>
