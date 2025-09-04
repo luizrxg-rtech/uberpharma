@@ -4,11 +4,13 @@ import {useParams} from "next/navigation";
 import {useEffect, useState} from 'react';
 import {Product} from '@/types/product/types';
 import {ProductCard} from '@/components/ui/product-card';
-import {Container, SimpleGrid, Text, VStack} from '@chakra-ui/react';
+import {Container, SimpleGrid, SkeletonText, Text, VStack} from '@chakra-ui/react';
 import {ProductService} from '@/services/product-service';
 import {IconSearch} from "@tabler/icons-react";
 import * as sea from "node:sea";
 import {CUSTOM_LINE} from "@/components/home/products/products";
+import {load} from "next/dist/compiled/@edge-runtime/primitives/load";
+import {repeat} from "@/utils/repeat";
 
 export default function SearchPage() {
   const params = useParams();
@@ -114,7 +116,7 @@ export default function SearchPage() {
     );
   }
 
-  if (filteredProducts.length === 0) {
+  if (filteredProducts.length === 0 && !loading) {
     return (
       <VStack
         gap={4}
@@ -162,35 +164,60 @@ export default function SearchPage() {
     )
   }
 
+  if (loading) {
+    return (
+      <VStack
+        gap={8}
+        align="start"
+        maxW="7xl"
+        mx="auto"
+      >
+        <SkeletonText
+          width="400px"
+          height="22px"
+          noOfLines={1}
+        />
+        <SimpleGrid
+          columns={6}
+          gapX={6}
+          gapY={12}
+        >
+          {repeat(12).map((product, index) => (
+            <ProductCard
+              key={index}
+              loading={loading}
+              product={product}
+            />
+          ))}
+        </SimpleGrid>
+      </VStack>
+    )
+  }
+
   return (
     <VStack
       gap={8}
-      align="stretch"
+      align="start"
       maxW="7xl"
       mx="auto"
     >
-      <VStack
-        gap={4}
-        align="center"
+      <Text
+        fontSize="lg"
+        color="fg.muted"
+        textAlign="start"
+        w="fit"
       >
-          <Text
-            fontSize="lg"
-            color="fg.muted"
-            textAlign="start"
-            w="full"
-          >
-            {getSearchText()}
-          </Text>
-      </VStack>
+        {getSearchText()}
+      </Text>
       <SimpleGrid
         columns={6}
         gapX={6}
         gapY={12}
       >
-        {filteredProducts.map((product) => (
+        {filteredProducts.map((product, index) => (
           <ProductCard
+            key={index}
             loading={loading}
-            key={product.id}
             product={product}
           />
         ))}
