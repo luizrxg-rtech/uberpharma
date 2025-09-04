@@ -40,16 +40,16 @@ export default function RowHeader({
       >
         {line}
       </Text>
-      <Button
-        onClick={() => {}}
-        rounded="full"
-        fontWeight="semibold"
-        variant="plain"
-        ml="auto"
-      >
-        Ver todas
-        <IconChevronRight size={16} />
-      </Button>
+      {/*<Button*/}
+      {/*  onClick={() => {}}*/}
+      {/*  rounded="full"*/}
+      {/*  fontWeight="semibold"*/}
+      {/*  variant="plain"*/}
+      {/*  ml="auto"*/}
+      {/*>*/}
+      {/*  Ver todas*/}
+      {/*  <IconChevronRight size={16} />*/}
+      {/*</Button>*/}
     </HStack>
   )
 }
