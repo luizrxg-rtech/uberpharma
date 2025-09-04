@@ -4,21 +4,33 @@ import {useParams} from "next/navigation";
 import {useEffect, useState} from 'react';
 import {Product} from '@/types/product/types';
 import {ProductCard} from '@/components/ui/product-card';
-import {SegmentedControl, SegmentOption} from '@/components/ui/segmented-control';
-import {Container, SimpleGrid, Spinner, Text, VStack} from '@chakra-ui/react';
+import {Container, SimpleGrid, Text, VStack} from '@chakra-ui/react';
 import {ProductService} from '@/services/product-service';
+import {IconSearch} from "@tabler/icons-react";
+import * as sea from "node:sea";
+import {CUSTOM_LINE} from "@/components/home/products/products";
 
 export default function SearchPage() {
   const params = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const query = params?.query as string[] | undefined;
-  const searchQuery = query && query.length > 0 ? decodeURIComponent(query[0]) : '';
-  const isSearchRoute = Boolean(searchQuery);
+  const isLineSearch = query && query?.length > 1;
+
+  let searchQuery: string = ""
+
+  if (query) {
+    if (query.length === 1) {
+      searchQuery = decodeURIComponent(query[0])
+    } else {
+      searchQuery = decodeURIComponent(query[1])
+    }
+  }
+
+  const isSearchRoute = Boolean(searchQuery) && !isLineSearch;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,7 +40,7 @@ export default function SearchPage() {
 
         let fetchedProducts: Product[];
 
-        if (searchQuery) {
+        if (searchQuery && !isLineSearch) {
           fetchedProducts = await ProductService.searchProducts(searchQuery);
         } else {
           fetchedProducts = await ProductService.getAllProducts();
@@ -44,30 +56,19 @@ export default function SearchPage() {
     };
 
     fetchProducts();
-  }, [searchQuery]);
+  }, [isLineSearch, searchQuery]);
 
   useEffect(() => {
     let filtered = products;
 
-    if (selectedCategory) {
-      filtered = filtered.filter(product => product.category === selectedCategory);
+    if (searchQuery && searchQuery != CUSTOM_LINE) {
+      filtered = filtered.filter(product => product.line === searchQuery);
+    } else {
+      filtered = filtered.slice(0, 12).sort((a, b) => b.stock - a.stock);
     }
 
     setFilteredProducts(filtered);
-  }, [products, selectedCategory]);
-
-  const categories = Array.from(new Set(products.map(product => product.category)));
-
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-  };
-
-  const getPageTitle = () => {
-    if (isSearchRoute) {
-      return `Resultados da busca por "${searchQuery}"`;
-    }
-    return 'Todos os Produtos';
-  };
+  }, [searchQuery, isLineSearch, products]);
 
   const getEmptyStateMessage = () => {
     if (isSearchRoute) {
@@ -76,76 +77,124 @@ export default function SearchPage() {
     return 'Nenhum produto encontrado';
   };
 
-  const categoryOptions: SegmentOption[] = [
-    { label: "Todas", value: "" },
-    ...categories.map(category => ({
-      label: category,
-      value: category
-    }))
-  ];
+  const getSearchText = () => {
+    if (isSearchRoute) {
+      return `Mostrando ${filteredProducts?.length} produto${filteredProducts?.length !== 1 ? 's' : ''} encontrado${filteredProducts?.length !== 1 ? 's' : ''}`
+    } else if (isLineSearch) {
+      if (searchQuery !== CUSTOM_LINE) {
+        return `Mostrando produtos da linha ${searchQuery}`
+      } else {
+        return `Mostrando produtos ${CUSTOM_LINE.toLowerCase()}`
+      }
+    } else {
+      return "Mostrando todos os produtos"
+    }
+  };
 
   if (error) {
     return (
-      <Container maxW="7xl" py={8}>
-        <VStack gap={8} align="center" minH="400px" justify="center">
-          <Text color="red.500" fontSize="lg">{error}</Text>
+      <Container
+        maxW="7xl"
+        py={8}
+      >
+        <VStack
+          gap={8}
+          align="center"
+          minH="400px"
+          justify="center"
+        >
+          <Text
+            color="red.500"
+            fontSize="lg"
+          >
+            {error}
+          </Text>
         </VStack>
       </Container>
     );
   }
 
-  return (
-    <Container maxW="7xl" py={8}>
-      <VStack gap={8} align="stretch">
-        <VStack gap={4} align="center">
-          <Text fontSize="3xl" fontWeight="bold" textAlign="center">
-            {getPageTitle()}
-          </Text>
-          <Text fontSize="lg" color="fg.muted" textAlign="center">
-            {filteredProducts.length} produto{filteredProducts.length !== 1 ? 's' : ''} {isSearchRoute ? 'encontrado' : 'disponível'}{filteredProducts.length !== 1 ? (isSearchRoute ? 's' : 'eis') : ''}
-          </Text>
-        </VStack>
-
-        {categories.length > 0 && (
+  if (filteredProducts.length === 0) {
+    return (
+      <VStack
+        gap={4}
+        py={12}
+      >
+        <VStack
+          w="200px"
+          h="200px"
+          bg="brand.50"
+          borderRadius="full"
+          align="center"
+          justify="center"
+          position="relative"
+          overflow="hidden"
+          my={10}
+        >
           <VStack
-            gap={4}
-            wrap="wrap"
+            w="120px"
+            h="120px"
+            bg="brand.100"
+            borderRadius="full"
             align="center"
-            className="w-full"
+            justify="center"
           >
-            <Text fontSize="xl" fontWeight="semibold">Categorias</Text>
-            <SegmentedControl
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              options={categoryOptions}
-              size="sm"
-              colorScheme="blue"
-              className="w-fit"
+            <IconSearch
+              size={48}
+              className="text-background"
             />
           </VStack>
-        )}
-
-        {filteredProducts.length === 0 ? (
-          <VStack gap={4} py={12}>
-            <Text fontSize="lg" textAlign="center" color="fg.muted">
-              {getEmptyStateMessage()}
-            </Text>
-            <Text textAlign="center" color="fg.muted">
-              Tente buscar com outras palavras-chave ou navegue por nossas categorias
-            </Text>
-          </VStack>
-        ) : (
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={6}>
-            {filteredProducts.map((product) => (
-              <ProductCard
-                loading={loading}
-                key={product.id}
-                product={product}
-              />
-            ))}
-          </SimpleGrid>
-        )}
+        </VStack>
+        <Text
+          fontSize="lg"
+          textAlign="center"
+          color="fg.muted"
+        >
+          {getEmptyStateMessage()}
+        </Text>
+        <Text
+          textAlign="center"
+          color="fg.muted"
+        >
+          Tente buscar com outras palavras-chave
+        </Text>
       </VStack>
-    </Container>
+    )
+  }
+
+  return (
+    <VStack
+      gap={8}
+      align="stretch"
+      maxW="7xl"
+      mx="auto"
+    >
+      <VStack
+        gap={4}
+        align="center"
+      >
+          <Text
+            fontSize="lg"
+            color="fg.muted"
+            textAlign="start"
+            w="full"
+          >
+            {getSearchText()}
+          </Text>
+      </VStack>
+      <SimpleGrid
+        columns={6}
+        gapX={6}
+        gapY={12}
+      >
+        {filteredProducts.map((product) => (
+          <ProductCard
+            loading={loading}
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </SimpleGrid>
+    </VStack>
   );
 }

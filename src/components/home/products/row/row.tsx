@@ -7,12 +7,14 @@ interface RowProps {
   line: string
   products: Product[] | undefined,
   loading: boolean,
+  handleClickLine(): void,
 }
 
 export default function Row({
   line,
   products,
-  loading
+  loading,
+  handleClickLine
 }: RowProps) {
 
   if (products?.length === 0) {
@@ -29,6 +31,7 @@ export default function Row({
       <RowHeader
         line={line}
         loading={loading}
+        handleClickLine={handleClickLine}
       />
       <RowItems
         products={products}

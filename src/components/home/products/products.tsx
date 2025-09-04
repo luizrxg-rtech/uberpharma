@@ -7,11 +7,13 @@ import FilterModal, {FilterOptions} from "./filter-modal";
 import {useEffect, useState} from "react";
 import {Category, Product} from "@/types/product/types";
 import {ProductService} from "@/services/product-service";
+import {useRouter} from "next/navigation";
 
-const CUSTOM_LINE = "Mais vendidos"
-const PRODUCTS_PER_ROW = 6;
+export const CUSTOM_LINE = "Mais vendidos"
+export const PRODUCTS_PER_ROW = 6;
 
 export default function Products() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
@@ -87,6 +89,10 @@ export default function Products() {
     setFilterOptions(newFilters);
   };
 
+  const handleClickLine = (line: string) => {
+    router.push(`/search/line/${encodeURIComponent(line || "")}`);
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -131,6 +137,7 @@ export default function Products() {
             line={line}
             products={processedProducts}
             loading={loading}
+            handleClickLine={() => handleClickLine(line)}
           />
         )
       })}

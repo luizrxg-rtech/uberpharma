@@ -4,11 +4,13 @@ import {IconChevronRight} from "@tabler/icons-react";
 interface RowHeaderProps {
   line: string
   loading: boolean,
+  handleClickLine(): void,
 }
 
 export default function RowHeader({
   line,
-  loading
+  loading,
+  handleClickLine
 }: RowHeaderProps) {
 
   if (loading) {
@@ -40,16 +42,26 @@ export default function RowHeader({
       >
         {line}
       </Text>
-      {/*<Button*/}
-      {/*  onClick={() => {}}*/}
-      {/*  rounded="full"*/}
-      {/*  fontWeight="semibold"*/}
-      {/*  variant="plain"*/}
-      {/*  ml="auto"*/}
-      {/*>*/}
-      {/*  Ver todas*/}
-      {/*  <IconChevronRight size={16} />*/}
-      {/*</Button>*/}
+      <Button
+        onClick={handleClickLine}
+        size="sm"
+        px={4}
+        py={2}
+        _hover={{
+          bg: "brand.50",
+          color: "brand.900",
+        }}
+        _active={{
+          bg: "brand.100",
+        }}
+        rounded="full"
+        fontWeight="semibold"
+        variant="plain"
+        ml="auto"
+      >
+        Ver todas
+        <IconChevronRight size={16} />
+      </Button>
     </HStack>
   )
 }
