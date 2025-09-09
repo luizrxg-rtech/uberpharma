@@ -68,7 +68,8 @@ export function ProductCard({
         py={1}
         fontSize="xs"
         fontWeight="bold"
-        w="60px"
+        minW="60px"
+        w="fit"
       >
         <Text justifySelf="center">
           {product?.weight}{product?.measure}
