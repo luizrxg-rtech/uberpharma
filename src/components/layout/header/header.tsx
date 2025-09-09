@@ -59,7 +59,6 @@ export default function Header() {
           placeholder="Buscar produtos"
           startElement={<IconSearch size={16}/>}
           className="max-w-md font-semibold"
-          variant="subtle"
         />
         <HStack gap={4}>
           <CartButton />

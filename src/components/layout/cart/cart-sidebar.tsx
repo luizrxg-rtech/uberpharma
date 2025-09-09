@@ -39,7 +39,7 @@ export default function CartSidebar() {
 
   const handleCheckout = () => {
     closeSidebar();
-    router.push('/cart');
+    router.push('/checkout');
   };
 
   if (!isVisible) return null;
@@ -258,7 +258,7 @@ export default function CartSidebar() {
                       <Text
                         fontSize="lg"
                         fontWeight="bold"
-                      >Total:</Text>
+                      >Total</Text>
                       <Text
                         fontSize="lg"
                         fontWeight="bold"

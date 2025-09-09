@@ -1,19 +1,19 @@
 import {Product} from "@/types/product/types";
 import {VStack} from "@chakra-ui/react";
-import RowItems from "@/components/home/products/row/row-items";
-import RowHeader from "@/components/home/products/row/row-header";
+import RowItems from "./row-items";
+import RowHeader from "./row-header";
 
 interface RowProps {
   line: string
   products: Product[] | undefined,
-  loading: boolean,
+  loading?: boolean,
   handleClickLine(): void,
 }
 
 export default function Row({
   line,
   products,
-  loading,
+  loading = false,
   handleClickLine
 }: RowProps) {
 

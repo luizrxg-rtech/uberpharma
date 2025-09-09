@@ -125,7 +125,6 @@ export default function RegisterPage() {
               label="Nome completo"
               type="text"
               placeholder="Seu nome"
-              variant="subtle"
               startElement={<IconUser size={16} />}
               value={registerData.name}
               onChange={(value) => setRegisterData({ ...registerData, name: value })}
@@ -136,7 +135,6 @@ export default function RegisterPage() {
               label="E-mail"
               type="email"
               placeholder="seu@email.com"
-              variant="subtle"
               startElement={<IconAt size={16} />}
               value={registerData.email}
               onChange={(value) => setRegisterData({ ...registerData, email: value })}
@@ -147,7 +145,6 @@ export default function RegisterPage() {
               label="Senha"
               type="password"
               placeholder="Mínimo 6 caracteres"
-              variant="subtle"
               startElement={<IconLock size={16} />}
               value={registerData.password}
               onChange={(value) => setRegisterData({ ...registerData, password: value })}
@@ -158,7 +155,6 @@ export default function RegisterPage() {
               label="Confirmar senha"
               type="password"
               placeholder="Digite a senha novamente"
-              variant="subtle"
               startElement={<IconLock size={16} />}
               value={registerData.confirmPassword}
               onChange={(value) => setRegisterData({ ...registerData, confirmPassword: value })}

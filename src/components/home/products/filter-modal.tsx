@@ -41,17 +41,10 @@ import { IconAdjustmentsHorizontal, IconX, IconCheck } from '@tabler/icons-react
 import { useFilterModal } from '@/contexts/filter-modal-context';
 import { Categories } from '@/types/product/enums';
 import { Category } from '@/types/product/types';
-
-export interface FilterOptions {
-  minPrice: number;
-  maxPrice: number;
-  sortBy: 'name' | 'price-asc' | 'price-desc' | 'newest';
-  categories: Category[];
-  inStock: boolean;
-}
+import { LinesFilterOptions } from '@/types/misc/types';
 
 interface FilterModalProps {
-  onFiltersChange: (filters: FilterOptions) => void;
+  onFiltersChange: (filters: LinesFilterOptions) => void;
 }
 
 const sortOptions = createListCollection({
@@ -67,7 +60,7 @@ export default function FilterModal({ onFiltersChange }: FilterModalProps) {
   const { isOpen, closeModal } = useFilterModal();
 
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-  const [sortBy, setSortBy] = useState<FilterOptions['sortBy']>('name');
+  const [sortBy, setSortBy] = useState<LinesFilterOptions['sortBy']>('name');
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [inStock, setInStock] = useState(false);
 
@@ -80,7 +73,7 @@ export default function FilterModal({ onFiltersChange }: FilterModalProps) {
   };
 
   const handleApplyFilters = () => {
-    const filters: FilterOptions = {
+    const filters: LinesFilterOptions = {
       minPrice: priceRange[0],
       maxPrice: priceRange[1],
       sortBy,
@@ -97,7 +90,7 @@ export default function FilterModal({ onFiltersChange }: FilterModalProps) {
     setSelectedCategories([]);
     setInStock(false);
 
-    const filters: FilterOptions = {
+    const filters: LinesFilterOptions = {
       minPrice: 0,
       maxPrice: 1000,
       sortBy: 'name',
@@ -174,7 +167,7 @@ export default function FilterModal({ onFiltersChange }: FilterModalProps) {
               <SelectRoot
                 collection={sortOptions}
                 value={[sortBy]}
-                onValueChange={(e) => setSortBy(e.value[0] as FilterOptions['sortBy'])}
+                onValueChange={(e) => setSortBy(e.value[0] as LinesFilterOptions['sortBy'])}
               >
                 <SelectTrigger>
                   <SelectValueText placeholder="Selecione a ordenação" />

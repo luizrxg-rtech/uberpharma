@@ -115,7 +115,6 @@ export default function LoginPage() {
               label="E-mail"
               type="email"
               placeholder="seu@email.com"
-              variant="subtle"
               startElement={<IconAt size={16} />}
               value={loginData.email}
               onChange={(value) => setLoginData({ ...loginData, email: value })}
@@ -126,7 +125,6 @@ export default function LoginPage() {
               label="Senha"
               type="password"
               placeholder="Sua senha"
-              variant="subtle"
               startElement={<IconLock size={16} />}
               value={loginData.password}
               onChange={(value) => setLoginData({ ...loginData, password: value })}

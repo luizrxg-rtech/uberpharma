@@ -29,7 +29,6 @@ export default function QuantityInput({
         </IconButton>
         <Input
           type="number"
-          variant="subtle"
           textAlign="center"
           value={quantity}
           onChange={(e) => handleQuantityChange(e.target.value)}

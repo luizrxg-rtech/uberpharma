@@ -27,7 +27,7 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    alert('Funcionalidade de checkout em desenvolvimento!');
+    router.push('/checkout');
   };
 
   if (items.length === 0) {
@@ -205,16 +205,6 @@ export default function CartPage() {
           <HStack justify="space-between">
             <Text>Subtotal</Text>
             <Text fontWeight="semibold">R$ {total.toFixed(2)}</Text>
-          </HStack>
-
-          <HStack justify="space-between">
-            <Text>Frete</Text>
-            <Text
-              fontWeight="semibold"
-              color="green.600"
-            >
-              Grátis
-            </Text>
           </HStack>
 
           <HStack

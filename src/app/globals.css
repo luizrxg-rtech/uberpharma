@@ -143,6 +143,10 @@
     animation: progress 10.3s linear;
   }
 
+  div[data-part="control"] {
+    @apply rounded-3xl overflow-hidden;
+  }
+
   @keyframes progress {
     from {
       stroke-dashoffset: 39.269908169872416;

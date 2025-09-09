@@ -1,13 +1,14 @@
 "use client"
 
 import {VStack} from "@chakra-ui/react";
-import Row from "./row/row";
 import Filter from "./filter";
-import FilterModal, {FilterOptions} from "./filter-modal";
+import FilterModal from "./filter-modal";
 import {useEffect, useState} from "react";
 import {Category, Product} from "@/types/product/types";
 import {ProductService} from "@/services/product-service";
 import {useRouter} from "next/navigation";
+import Rows from "./rows/rows";
+import {LinesFilterOptions} from "@/types/misc/types";
 
 export const CUSTOM_LINE = "Mais vendidos"
 export const PRODUCTS_PER_ROW = 6;
@@ -18,7 +19,7 @@ export default function Products() {
   const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+  const [filterOptions, setFilterOptions] = useState<LinesFilterOptions>({
     minPrice: 0,
     maxPrice: 1000,
     sortBy: 'name',
@@ -85,7 +86,7 @@ export default function Products() {
     return filtered;
   };
 
-  const handleFiltersChange = (newFilters: FilterOptions) => {
+  const handleFiltersChange = (newFilters: LinesFilterOptions) => {
     setFilterOptions(newFilters);
   };
 
@@ -112,35 +113,14 @@ export default function Products() {
         setSelectedCategory={setSelectedCategory}
       />
       <FilterModal onFiltersChange={handleFiltersChange} />
-      {lines.map((line, index) => {
-        let lineProducts = products || [];
-
-        if (line === CUSTOM_LINE) {
-          lineProducts = applyFilters(lineProducts);
-          if (filterOptions.sortBy === 'name') {
-            lineProducts.sort((a, b) => b.stock - a.stock);
-          }
-        } else {
-          lineProducts = lineProducts.filter(product => product.line === line);
-          lineProducts = applyFilters(lineProducts);
-        }
-
-        const processedProducts = lineProducts.slice(0, PRODUCTS_PER_ROW);
-
-        if (processedProducts.length === 0) {
-          return null;
-        }
-
-        return (
-          <Row
-            key={index}
-            line={line}
-            products={processedProducts}
-            loading={loading}
-            handleClickLine={() => handleClickLine(line)}
-          />
-        )
-      })}
+      <Rows
+        lines={lines}
+        products={products}
+        loading={loading}
+        filterOptions={filterOptions}
+        applyFilters={applyFilters}
+        handleClickLine={handleClickLine}
+      />
     </VStack>
   )
 }

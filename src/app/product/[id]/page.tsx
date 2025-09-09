@@ -32,10 +32,9 @@ export default function ProductPage() {
         const foundProduct = await ProductService.getProductById(id as string);
         setProduct(foundProduct);
       } catch (error) {
-        setError('Erro ao carregar produto. Tente novamente. ');
-        console.error('Erro ao carregar produto:', error);
+        setError('Erro ao carregar produto. Tente novamente.');
         toaster.error({
-          title: 'Erro ao carregar produto. Tente novamente.',
+          title: error,
           closable: true,
         });
       } finally {

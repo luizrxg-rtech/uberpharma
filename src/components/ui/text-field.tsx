@@ -53,7 +53,7 @@ export const TextField = ({
   labelClassName,
   inputClassName,
   helperTextClassName,
-  variant,
+  variant = "subtle",
   size
 }: TextFieldProps) => {
   return (
