@@ -5,7 +5,7 @@ import {IconCheck, IconPackage, IconShoppingBag, IconTruck} from '@tabler/icons-
 import { useRouter } from 'next/navigation';
 
 interface OrderSuccessProps {
-  orderId?: string;
+  orderId?: string | null;
   total: number;
   estimatedDays: number;
   onContinueShopping: () => void;
