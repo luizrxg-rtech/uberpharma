@@ -288,7 +288,7 @@ export default function OrderSummary({ items, checkoutData, currentStep, coupon,
               <Text fontSize="lg" fontWeight="bold">
                 Total
               </Text>
-              <Text fontSize="lg" fontWeight="bold" color="blue.600">
+              <Text fontSize="lg" fontWeight="bold" color="brand.500">
                 {formatPrice(hasValidShipping ? checkoutData.total : checkoutData.subtotal)}
               </Text>
             </HStack>
